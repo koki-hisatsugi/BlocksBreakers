@@ -13,6 +13,7 @@ public class testSmoth : MonoBehaviour
     void Start()
     {
         velocity = Vector3.zero;
+        //iTween.MoveTo(gameObject, iTween.Hash("x", Destination.x));
     }
 
     // Update is called once per frame
@@ -22,6 +23,14 @@ public class testSmoth : MonoBehaviour
         {
             transform.position = Vector3.SmoothDamp(currentPos, Destination, ref velocity, smoothTime);
         }
-        
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            iTween.MoveTo(gameObject, iTween.Hash("x", Destination.x, "y", Destination.y));
+            //iTween.MoveTo(gameObject, iTween.Hash(Destination.x, Destination.y));
+        }
+
     }
+
+    
 }

@@ -33,6 +33,7 @@ public class Ball : MonoBehaviour
     {
         //rigidbodyを取得
         rb = this.GetComponent<Rigidbody2D>();
+        rb.velocity = Vector3.zero;
         //力を設定
         force = new Vector3(1.5f, 0.5f, 0.0f) * speed;
         //力を加える
@@ -59,7 +60,18 @@ public class Ball : MonoBehaviour
         }
         if (smooth)
         {
-            transform.position = Vector3.SmoothDamp(currentPos, Destination, ref velocity, smoothTime);
+            if(Mathf.Abs(transform.position.x - Destination.x) > 1)
+            {
+                float dir = transform.position.x < Destination.x ? 0.1f : -0.1f;
+                transform.position += new Vector3(dir, 0, 0);
+            }
+            if (Mathf.Abs(transform.position.y - Destination.y) > 1)
+            {
+                float dir = transform.position.y < Destination.y ? 0.1f : -0.1f;
+                transform.position += new Vector3(0, dir, 0);
+            }
+
+
             if (transform.position == Destination)
             {
                 smooth = false;
@@ -85,6 +97,16 @@ public class Ball : MonoBehaviour
         smooth = true;
         currentPos = this.gameObject.transform.position;
         Destination = vec3;
+    }
+
+    public void setReturn(Vector3 vec)
+    {
+        //smooth = true;
+        Destination = vec;
+        rb.velocity = Vector3.zero;
+        iTween.MoveTo(gameObject, iTween.Hash("x", vec.x, "y", vec.y));
+        //transform.position = Destination;
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
