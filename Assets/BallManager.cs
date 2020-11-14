@@ -28,6 +28,7 @@ public class BallManager : MonoBehaviour
     public bool aggregation;
 
     GameObject Board;
+    
 
     void Start()
     {
@@ -58,6 +59,7 @@ public class BallManager : MonoBehaviour
         //pos.Normalize();
         //GManager.instance.force = pos;
         //Vector3 normalPos= pos.normalized;
+        GManager.instance.setState();
         StartCoroutine("shoot", shotForward);
     }
     IEnumerator shoot(Vector3 vec)
@@ -116,18 +118,22 @@ public class BallManager : MonoBehaviour
 
     public void setPosSuspention()
     {
-        for(int i=0; i<balls.Count; i++)
+        if (isShooting)
         {
-            //balls[i].GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-            //StartCoroutine("setPos", balls[i]);
-            balls[i].GetComponent<Ball>().setReturn(ballBornPoint.position);
+            for (int i = 0; i < balls.Count; i++)
+            {
+                //balls[i].GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+                //StartCoroutine("setPos", balls[i]);
+                balls[i].GetComponent<Ball>().setReturn(ballBornPoint.position);
+            }
+            returnBall = MaxBall;
+            isShooting = false;
+            aggregation = true;
+            StopCoroutine("shoot");
+            StartCoroutine("downBlocks");
+            //Board.GetComponent<Board>().testDownBlocks();
         }
-        returnBall = MaxBall;
-        isShooting = false;
-        aggregation = true;
-        StopCoroutine("shoot");
-        StartCoroutine("downBlocks");
-        //Board.GetComponent<Board>().testDownBlocks();
+
     }
 
     //ブロック下げるコルーチン
@@ -137,6 +143,7 @@ public class BallManager : MonoBehaviour
         Board.GetComponent<Board>().testDownBlocks();
         yield return new WaitForSeconds(0.5f);
         Board.GetComponent<Board>().dengerCheck();
+        GManager.instance.setState();
     }
 
 

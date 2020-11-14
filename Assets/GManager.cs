@@ -22,19 +22,16 @@ public class GManager : MonoBehaviour
     public GameObject respornPoint;
     public bool respornBool;
 
-    private enum GameState
+    public enum GameState
     {
-        Idle,
-        PieceMove,
-        MatchCheck,
-        DeletePiece,
-        FillPiece,
+        PlayerTurn,
+        BlocksTurn,
     }
     [SerializeField] private GameState gameState;
 
     private void Awake()
     {
-        gameState = GameState.Idle;
+        gameState = GameState.PlayerTurn;
         //GameManagerを一つのみ存在するようにする
         if (instance == null)
         {
@@ -59,7 +56,10 @@ public class GManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            setState();
+        }
     }
 
     void Init()
@@ -68,5 +68,22 @@ public class GManager : MonoBehaviour
         //下の壁に当たる位置 + ボールの半径分だけ初期位置を上に設定
         float _z = Bwall.transform.position.z + Bwall.transform.lossyScale.z / 2 + 0.4f;
         ballBornPoint.transform.position = transform.position = new Vector3(0, 0, _z);
+    }
+
+    public void setState()
+    {
+        if(gameState== GameState.PlayerTurn)
+        {
+            gameState = GameState.BlocksTurn;
+        }
+        else
+        {
+            gameState = GameState.PlayerTurn;
+        }
+    }
+
+    public GameState getState()
+    {
+        return gameState;
     }
 }

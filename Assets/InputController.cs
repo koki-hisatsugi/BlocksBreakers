@@ -38,7 +38,7 @@ public class InputController : MonoBehaviour
     // タッチすると呼ばれる
     private void OnPress(object sender, System.EventArgs e)
     {
-        if (!ballManager.isShooting)
+        if (!ballManager.isShooting && (GManager.instance.getState() == GManager.GameState.PlayerTurn))
         {
             //点を可視化
             estimation.Visualaization();
@@ -52,7 +52,8 @@ public class InputController : MonoBehaviour
     //　離した時に呼ばれる
     private void OnRelease(object sender, System.EventArgs e)
     {
-        if (!ballManager.isShooting)
+
+        if (!ballManager.isShooting && !ballManager.aggregation &&(GManager.instance.getState()== GManager.GameState.PlayerTurn))
         {
             Transform ballbornpoint = estimation.getBallBornPoint();
             if (releasePoint.y - 0.1f >= ballbornpoint.position.y)
@@ -71,7 +72,7 @@ public class InputController : MonoBehaviour
     // スワイプすると呼ばれる
     private void OnTransformed(object sender, System.EventArgs e)
     {
-        if (!ballManager.isShooting)
+        if (!ballManager.isShooting && (GManager.instance.getState() == GManager.GameState.PlayerTurn))
         {
             // TransformGesture型にキャスト
             var gesture = sender as TransformGesture;
@@ -99,6 +100,7 @@ public class InputController : MonoBehaviour
         {
             //エピタフ更新
             estimation.SetPoint(releasePoint);
+            estimation.Visualaization();
         }
         else
         {

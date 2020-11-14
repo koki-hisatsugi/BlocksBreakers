@@ -38,6 +38,8 @@ public class Estimation : MonoBehaviour
 
     void Start()
     {
+        ballBornPoint = GameObject.Find("BallBornPoint").GetComponent<Transform>();
+        dummyObjParent = GameObject.Find("BallBornPoint").GetComponent<Transform>();
         rigid = GetComponent<Rigidbody>();
         if (!rigid)
             rigid = gameObject.AddComponent<Rigidbody>();

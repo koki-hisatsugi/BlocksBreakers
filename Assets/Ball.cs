@@ -23,6 +23,12 @@ public class Ball : MonoBehaviour
     Vector3 velocity = Vector3.zero;
 
     public Vector2 Rpos;
+
+    public Vector2 rbvelocity;
+    public float backupYpos;
+    public float backupXpos;
+    public float horizontalcount;
+    public float vaticalcount;
     private void Awake()
     {
         forceBall = GManager.instance.force;
@@ -48,7 +54,8 @@ public class Ball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        rbvelocity = rb.velocity;
+        rb.velocity = rbvelocity;
     }
 
     private void FixedUpdate()
@@ -85,6 +92,7 @@ public class Ball : MonoBehaviour
     {
         Debug.Log(pos);
         rb.AddForce(pos * speed);
+        horizontalcount = 0;
     }
 
     public void forceZero()
@@ -111,28 +119,44 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        /*if (collision.gameObject.tag == "UnderGround")
+        //水平方向で位置が変わらないときの対策
+        float gosaY = transform.position.y - backupYpos;
+        float gosaAbsY = Mathf.Abs(gosaY);
+        if (gosaAbsY>0.5f)
         {
-            if (!GManager.instance.respornBool)
-            {
-                GManager.instance.Rpos = gameObject.transform.position;
-                rb.velocity = new Vector3(0, 0, 0);
-                GManager.instance.respornPoint.transform.position = GManager.instance.Rpos;
-                GManager.instance.respornPoint.SetActive(true);
-                GManager.instance.respornBool = true;
-                Destroy(gameObject);
-            }
-            else
-            {
-                resPos = GManager.instance.RespornPosition;
-                Rpos = GManager.instance.Rpos;
-                onUG = true;
-                Destroy(gameObject);
-            }
+            backupYpos = transform.position.y;
 
-            
-        }*/
+            horizontalcount = 0;
+        }
+        else
+        {
+            horizontalcount++;
+        }
 
-        
+        if (horizontalcount == 10)
+        {
+            rb.velocity += new Vector2(0, -0.5f);
+            horizontalcount = 0;
+        }
+
+        //垂直方向で位置が変わらないときの対策
+        float gosaX = transform.position.x - backupXpos;
+        float gosaAbsX = Mathf.Abs(gosaX);
+        if (gosaAbsX > 0.5f)
+        {
+            backupXpos = transform.position.x;
+
+            vaticalcount = 0;
+        }
+        else
+        {
+            vaticalcount++;
+        }
+
+        if (vaticalcount == 10)
+        {
+            rb.velocity += new Vector2(0.5f, 0);
+            vaticalcount = 0;
+        }
     }
 }
