@@ -21,6 +21,7 @@ public class BallManager : MonoBehaviour
     public bool isShooting;
 
     //戻ってきたボールの数
+    [SerializeField]
     int returnBall;
 
     public float waitSec=0.1f;
@@ -28,14 +29,24 @@ public class BallManager : MonoBehaviour
     public bool aggregation;
 
     GameObject Board;
-    
+    public GameObject PausePanel;
+    public string gameStateKeyBK;
 
     void Start()
     {
+        PausePanel.SetActive(false);
         isShooting = false;
         BallBorn();
         aggregation = false;
         Board = GameObject.Find("Board");
+        StartCoroutine("ResetState");
+    }
+
+    //再ロード時のステータスをリセットするコルーチン
+    IEnumerator ResetState()
+    {
+        yield return new WaitForSeconds(0.1f);
+        GManager.instance.setState("PlayerTurn");
     }
 
     //足りない分リストに追加
@@ -59,7 +70,7 @@ public class BallManager : MonoBehaviour
         //pos.Normalize();
         //GManager.instance.force = pos;
         //Vector3 normalPos= pos.normalized;
-        GManager.instance.setState();
+        GManager.instance.setState("BlocksTurn");
         StartCoroutine("shoot", shotForward);
     }
     IEnumerator shoot(Vector3 vec)
@@ -122,8 +133,6 @@ public class BallManager : MonoBehaviour
         {
             for (int i = 0; i < balls.Count; i++)
             {
-                //balls[i].GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-                //StartCoroutine("setPos", balls[i]);
                 balls[i].GetComponent<Ball>().setReturn(ballBornPoint.position);
             }
             returnBall = MaxBall;
@@ -143,7 +152,7 @@ public class BallManager : MonoBehaviour
         Board.GetComponent<Board>().testDownBlocks();
         yield return new WaitForSeconds(0.5f);
         Board.GetComponent<Board>().dengerCheck();
-        GManager.instance.setState();
+        GManager.instance.setState("PlayerTurn");
     }
 
 
@@ -152,6 +161,52 @@ public class BallManager : MonoBehaviour
         Vector3 pos = new Vector3(3, 4, 5);
         Vector3 nlz = pos.normalized;
         Debug.Log(nlz);
+    }
+
+    public void ballPause()
+    {
+        PausePanel.SetActive(true);
+        Time.timeScale = 0;
+        setGameStateKey();
+        GManager.instance.setState("Pause");
+        for (int i = 0; i < balls.Count; i++)
+        {
+            //balls[i].GetComponent<Ball>().PauseRigid();
+        }
+    }
+    public void ballResume()
+    {
+        PausePanel.SetActive(false);
+        Time.timeScale = 1;
+        //GManager.instance.setState(gameStateKeyBK);
+        StartCoroutine("GameStateRelese");
+        for (int i = 0; i < balls.Count; i++)
+        {
+            //balls[i].GetComponent<Ball>().PauseRigidResume();
+        }
+    }
+    //GameStateを一時停止から元の状態に戻すコルーチン
+    IEnumerator GameStateRelese()
+    {
+        yield return new WaitForSeconds(0.1f);
+        GManager.instance.setState(gameStateKeyBK);
+    }
+
+    public void setGameStateKey()
+    {
+        if (GManager.instance.getState() == GManager.GameState.PlayerTurn)
+        {
+            gameStateKeyBK = "PlayerTurn";
+        }else if (GManager.instance.getState() == GManager.GameState.Pause)
+        {
+            gameStateKeyBK = "Pause";
+        }else if (GManager.instance.getState() == GManager.GameState.GameOver)
+        {
+            gameStateKeyBK = "GameOver";
+        }else if (GManager.instance.getState() == GManager.GameState.BlocksTurn)
+        {
+            gameStateKeyBK = "BlocksTurn";
+        }
     }
 
     public bool aggregationCheck()

@@ -26,6 +26,8 @@ public class GManager : MonoBehaviour
     {
         PlayerTurn,
         BlocksTurn,
+        GameOver,
+        Pause,
     }
     [SerializeField] private GameState gameState;
 
@@ -48,6 +50,7 @@ public class GManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameState = GameState.PlayerTurn;
         respornPoint = GameObject.Find("RespornPoint");
         Debug.Log(Screen.width);
         Init();
@@ -58,7 +61,7 @@ public class GManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.H))
         {
-            setState();
+            //setState();
         }
     }
 
@@ -70,15 +73,22 @@ public class GManager : MonoBehaviour
         ballBornPoint.transform.position = transform.position = new Vector3(0, 0, _z);
     }
 
-    public void setState()
+    public void setState(string setKey)
     {
-        if(gameState== GameState.PlayerTurn)
+        switch (setKey)
         {
-            gameState = GameState.BlocksTurn;
-        }
-        else
-        {
-            gameState = GameState.PlayerTurn;
+            case "PlayerTurn":
+                gameState = GameState.PlayerTurn;
+                break;
+            case "BlocksTurn":
+                gameState = GameState.BlocksTurn;
+                break;
+            case "Pause":
+                gameState = GameState.Pause;
+                break;
+            case "GameOver":
+                gameState = GameState.GameOver;
+                break;
         }
     }
 

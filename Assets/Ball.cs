@@ -60,28 +60,12 @@ public class Ball : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (onUG)
-        {
-            //transform.position = Vector2.SmoothDamp(transform.position, Rpos, ref velocity, smoothTime);
-            
-        }
         if (smooth)
         {
-            if(Mathf.Abs(transform.position.x - Destination.x) > 1)
-            {
-                float dir = transform.position.x < Destination.x ? 0.1f : -0.1f;
-                transform.position += new Vector3(dir, 0, 0);
-            }
-            if (Mathf.Abs(transform.position.y - Destination.y) > 1)
-            {
-                float dir = transform.position.y < Destination.y ? 0.1f : -0.1f;
-                transform.position += new Vector3(0, dir, 0);
-            }
-
-
-            if (transform.position == Destination)
+            if(transform.position== Destination)
             {
                 smooth = false;
+                gameObject.tag = "ball";
             }
         }
 
@@ -109,12 +93,21 @@ public class Ball : MonoBehaviour
 
     public void setReturn(Vector3 vec)
     {
-        //smooth = true;
+        smooth = true;
         Destination = vec;
         rb.velocity = Vector3.zero;
         iTween.MoveTo(gameObject, iTween.Hash("x", vec.x, "y", vec.y));
+        gameObject.tag = "Untagged";
         //transform.position = Destination;
 
+    }
+    public void PauseRigid()
+    {
+        gameObject.GetComponent<Rigidbody2D>().Pause(gameObject);
+    }
+    public void PauseRigidResume()
+    {
+        gameObject.GetComponent<Rigidbody2D>().Resume(gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -155,7 +148,15 @@ public class Ball : MonoBehaviour
 
         if (vaticalcount == 10)
         {
-            rb.velocity += new Vector2(0.5f, 0);
+            if (transform.position.x > 0.01f)
+            {
+                rb.velocity += new Vector2(-0.5f, 0);
+            }
+            else
+            {
+                rb.velocity += new Vector2(0.5f, 0);
+            }
+            
             vaticalcount = 0;
         }
     }

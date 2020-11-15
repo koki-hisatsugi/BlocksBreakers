@@ -13,10 +13,13 @@ public class InputController : MonoBehaviour
     private Vector3 releasePoint;
     BallManager ballManager;
 
+    private GameObject Twall;
+
     void Start()
     {
         estimation = GetComponent<Estimation>();
         ballManager = GetComponent<BallManager>();
+        Twall = GameObject.Find("Twall");
     }
 
     // オブジェクトが有効化されたときにeventにメソッドを登録する
@@ -38,6 +41,7 @@ public class InputController : MonoBehaviour
     // タッチすると呼ばれる
     private void OnPress(object sender, System.EventArgs e)
     {
+        if (Time.timeScale == 0) { return; }
         if (!ballManager.isShooting && (GManager.instance.getState() == GManager.GameState.PlayerTurn))
         {
             //点を可視化
@@ -52,7 +56,7 @@ public class InputController : MonoBehaviour
     //　離した時に呼ばれる
     private void OnRelease(object sender, System.EventArgs e)
     {
-
+        if (Time.timeScale == 0) { return; }
         if (!ballManager.isShooting && !ballManager.aggregation &&(GManager.instance.getState()== GManager.GameState.PlayerTurn))
         {
             Transform ballbornpoint = estimation.getBallBornPoint();
@@ -72,6 +76,7 @@ public class InputController : MonoBehaviour
     // スワイプすると呼ばれる
     private void OnTransformed(object sender, System.EventArgs e)
     {
+        if (Time.timeScale == 0) { return; }
         if (!ballManager.isShooting && (GManager.instance.getState() == GManager.GameState.PlayerTurn))
         {
             // TransformGesture型にキャスト
@@ -96,7 +101,7 @@ public class InputController : MonoBehaviour
         //Debug.Log(point);
         releasePoint = Camera.main.ScreenToWorldPoint(point);
         Transform ballbornpoint = estimation.getBallBornPoint();
-        if (releasePoint.y - 0.1f >= ballbornpoint.position.y)
+        if (releasePoint.y - 0.1f >= ballbornpoint.position.y && releasePoint.y<= Twall.transform.position.y)
         {
             //エピタフ更新
             estimation.SetPoint(releasePoint);

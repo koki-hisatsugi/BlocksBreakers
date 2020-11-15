@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Board : MonoBehaviour
 {
@@ -10,10 +11,14 @@ public class Board : MonoBehaviour
     private int[,] BlockFlag;
 
     public GameObject denText;
+    public GameObject GOPanel;
+    public GameObject ClearPanel;
     // Start is called before the first frame update
     void Start()
     {
         denText.SetActive(false);
+        GOPanel.SetActive(false);
+        ClearPanel.SetActive(false);
         testSetBlockFlag2();
         blocksPos = new BlocksPos[12,11];
         for(int i=0; i<12; i++)
@@ -57,6 +62,15 @@ public class Board : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             testDownBlocks();
+        }
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            Pauser.Pause();
+        }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            Pauser.Resume();
         }
     }
 
@@ -134,12 +148,41 @@ public class Board : MonoBehaviour
 
     public void dengerCheck()
     {
-        bool denger = false;
-        for(int i=0; i<11; i++)
+        bool denger = false;//注意喚起用のbool定義
+        bool gameover = false;//ゲームオーバーのbool定義
+        bool clear = false;//クリアのbool定義
+
+        for (int i = 0; i < 11; i++)
         {
-            if (blocksPos[10, i].myBlock != null)
+            if (blocksPos[11, i].myBlock != null)
             {
-                denger = true;
+                gameover = true;
+                break;
+            }
+        }
+        if (!gameover)
+        {
+            for (int i = 0; i < 11; i++)
+            {
+                if (blocksPos[10, i].myBlock != null)
+                {
+                    denger = true;
+                    break;
+                }
+            }
+        }
+        if (!gameover && !denger)
+        {
+            for (int i = 0; i < 12; i++)
+            {
+                for (int j = 0; j < 11; j++)
+                {
+                    if (blocksPos[i, j].myBlock != null)
+                    {
+                        return;
+                    }
+                    clear = true;
+                }
             }
         }
 
@@ -147,6 +190,12 @@ public class Board : MonoBehaviour
         {
             denText.SetActive(true);
             StartCoroutine("delDenger");
+        }else if (gameover)
+        {
+            StartCoroutine("GameOverActive");
+        }else if (clear)
+        {
+            StartCoroutine("ClearActive");
         }
     }
 
@@ -155,6 +204,28 @@ public class Board : MonoBehaviour
     {
         yield return new WaitForSeconds(1.0f);
         denText.SetActive(false);
+    }
+
+    //ゲームオーバーコルーチン
+    IEnumerator GameOverActive()
+    {
+        yield return new WaitForSeconds(0.2f);
+        GOPanel.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    //クリアーコルーチン
+    IEnumerator ClearActive()
+    {
+        yield return new WaitForSeconds(0.2f);
+        ClearPanel.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void SceneReload()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void testSetBlockFlag()
