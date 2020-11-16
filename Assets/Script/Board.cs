@@ -32,7 +32,7 @@ public class Board : MonoBehaviour
     private void Awake()
     {
         // ファイルのパスを計算
-        _dataPath = Path.Combine(Application.persistentDataPath, "position.json");
+        _dataPath = Path.Combine(Application.persistentDataPath, "Stage.json");
     }
     // Start is called before the first frame update
     void Start()
@@ -41,7 +41,15 @@ public class Board : MonoBehaviour
         GOPanel.SetActive(false);
         ClearPanel.SetActive(false);
         //testSetBlockFlag2();
-        OnLoad(GManager.instance.stageNum);
+        if (GManager.instance.stageNum > 0)
+        {
+            OnLoad(GManager.instance.stageNum);
+        }
+        else
+        {
+            OnLoad(1);
+        }
+        
         testSetBlockFlagJson(stageLoad);
         //testSetBlockFlag();
         blocksPos = new BlocksPos[12,11];
@@ -332,7 +340,7 @@ public class Board : MonoBehaviour
         //transform.position = obj.position;
 
         //ステージの文字列を現在のステージにインポート
-        stageLoad = obj.strlist[stageNum];
+        stageLoad = obj.strlist[stageNum-1];
 
     }
 }

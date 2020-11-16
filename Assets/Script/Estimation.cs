@@ -26,6 +26,7 @@ public class Estimation : MonoBehaviour
 
     //壁の位置情報
     float LOverLine, ROverLine;
+    float TOverLine;
 
     //タッチされているか
     private bool isTouch;
@@ -50,8 +51,10 @@ public class Estimation : MonoBehaviour
             dummySphereList.Add(obj);
         }
         //壁の位置を取得して反転座標を設定
+        GameObject Twall = GameObject.Find("Twall");
         GameObject Rwall = GameObject.Find("Rwall");
         GameObject Lwall = GameObject.Find("Lwall");
+        TOverLine = Twall.transform.position.y - Twall.transform.localScale.y / 2;
         ROverLine = Rwall.transform.position.x - Rwall.transform.lossyScale.x / 2;
         LOverLine = Lwall.transform.position.x + Lwall.transform.lossyScale.x / 2;
         isTouch = false;
@@ -78,6 +81,7 @@ public class Estimation : MonoBehaviour
                 dummySphereList[i].transform.localPosition = new Vector3(x, y, z);
                 //壁を超えていたら
                 float curentX = dummySphereList[i].transform.position.x;
+                float curentY = dummySphereList[i].transform.position.y;
                 //右にオーバーの場合
                 if (curentX > ROverLine)
                 {
@@ -92,6 +96,13 @@ public class Estimation : MonoBehaviour
                 {
                     float pos = Mathf.Abs(curentX - LOverLine) * 2;
                     Vector3 offsetPos = new Vector3(pos, 0, 0);
+                    dummySphereList[i].transform.position += offsetPos;
+                }
+
+                if(curentY > TOverLine)
+                {
+                    float pos = Mathf.Abs(curentY - TOverLine) * -2;
+                    Vector3 offsetPos = new Vector3(0, pos, 0);
                     dummySphereList[i].transform.position += offsetPos;
                 }
             }

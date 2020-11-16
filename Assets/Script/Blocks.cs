@@ -8,11 +8,14 @@ public class Blocks : MonoBehaviour
 {
     public int blockHP = 30;
     public TextMeshProUGUI textMesh;
+    [SerializeField]
+    private Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
         textMesh.text = blockHP.ToString();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -30,6 +33,8 @@ public class Blocks : MonoBehaviour
             {
                 blockHP--;
                 textMesh.text = blockHP.ToString();
+                animator.SetBool("blockDamage", false);
+                animator.SetBool("blockDamage", true);
                 if (blockHP == 0)
                 {
                     Destroy(gameObject);
@@ -37,5 +42,10 @@ public class Blocks : MonoBehaviour
             }
 
         }
+    }
+
+    public void animend()
+    {
+        animator.SetBool("blockDamage", false);
     }
 }

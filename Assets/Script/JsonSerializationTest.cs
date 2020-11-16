@@ -8,18 +8,19 @@ public class JsonSerializationTest : MonoBehaviour
     [System.Serializable]
     private struct PositionData
     {
-        public Vector3 position;
-        public StageClass savestage;
-        public int[] intlist;
+        //public Vector3 position;
+        //public int[] intlist;
         public string[] strlist;
     }
 
     // ファイルパス
     private string _dataPath;
+
     private void Awake()
     {
         // ファイルのパスを計算
-        _dataPath = Path.Combine(Application.persistentDataPath, "position.json");
+        //_dataPath = Path.Combine(Application.persistentDataPath, "position.json");
+        _dataPath = Path.Combine(Application.persistentDataPath, "Stage.json");
     }
 
     public StageClass teststage;
@@ -56,12 +57,6 @@ public class JsonSerializationTest : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             OnLoad();
-            setStageJson();
-            Debug.Log(teststage.BlockFlag.Length + "　1次配列の長さ");
-            Debug.Log(teststage.BlockFlag.GetLength(0) + "　1次配列の長さ");
-            Debug.Log(teststage.BlockFlag.GetLength(1) + "　2次配列の要素の長さ");
-            setStageJson();
-            conversionStage(teststage);
         }
 
         // 方向キーで移動できるようにしておく
@@ -76,10 +71,9 @@ public class JsonSerializationTest : MonoBehaviour
         // シリアライズするオブジェクトを作成
         var obj = new PositionData
         {
-            position = transform.position,
-            savestage = teststage,
-            intlist = new int[] { 1, 2, 3, 4, 5 },
-            strlist = createStages(50)
+            //position = transform.position,
+            //intlist = new int[] { 1, 2, 3, 4, 5 },
+            strlist = createStages(300)
 
         };
 
@@ -103,44 +97,8 @@ public class JsonSerializationTest : MonoBehaviour
         var obj = JsonUtility.FromJson<PositionData>(json);
 
         // Transformにオブジェクトのデータをセット
-        transform.position = obj.position;
+        //transform.position = obj.position;
 
-    }
-
-    //stageDataをstring文字列に変換してjsonに書き込めるようにする
-    public void conversionStage(StageClass stage)
-    {
-        string jsonStr = null;
-        int tesnum = 0;
-        for(int i=0; i<stage.BlockFlag.GetLength(0); i++)
-        {
-            for(int j = 0; j < stage.BlockFlag.GetLength(1); j++)
-            {
-                //string tempStr=
-                jsonStr += stage.BlockFlag[i, j];
-            }
-        }
-        Debug.Log(jsonStr);
-    }
-
-    public void setStageJson()
-    {
-        int[,] BlockFlag = new int[12, 11] {
-            {0,0,0,0,0,0,0,0,0,0,0},
-            {1,1,1,1,1,0,1,1,1,0,1},
-            {1,1,1,1,1,0,1,1,1,1,1},
-            {1,1,1,1,1,0,1,1,1,1,1},
-            {1,1,1,1,1,0,1,1,1,1,1},
-            {1,1,1,1,1,0,1,1,1,1,1},
-            {1,1,1,1,1,0,1,1,1,1,1},
-            {1,1,1,0,1,0,1,0,1,1,1},
-            {1,1,1,1,1,0,1,1,1,1,1},
-            {2,0,0,0,0,0,0,0,0,0,2},
-            {0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0}
-        };
-
-        teststage = new StageClass(BlockFlag);
     }
 
     public string[] createStages(int num)

@@ -27,7 +27,7 @@ public class Create : MonoBehaviour
     private void Awake()
     {
         // ファイルのパスを計算
-        _dataPath = Path.Combine(Application.persistentDataPath, "position.json");
+        _dataPath = Path.Combine(Application.persistentDataPath, "Stage.json");
     }
 
     private void Start()
