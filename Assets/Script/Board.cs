@@ -2,9 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class Board : MonoBehaviour
 {
+    // jsonのステージデータ
+    [System.Serializable]
+    private struct PositionData
+    {
+        public Vector3 position;
+        public StageClass savestage;
+        public int[] intlist;
+        public string[] strlist;
+    }
+
+    // ファイルパス
+    private string _dataPath;
 
     public GameObject[] Block;
     private BlocksPos[,] blocksPos;
@@ -13,13 +26,24 @@ public class Board : MonoBehaviour
     public GameObject denText;
     public GameObject GOPanel;
     public GameObject ClearPanel;
+
+    public string stageLoad;
+
+    private void Awake()
+    {
+        // ファイルのパスを計算
+        _dataPath = Path.Combine(Application.persistentDataPath, "position.json");
+    }
     // Start is called before the first frame update
     void Start()
     {
         denText.SetActive(false);
         GOPanel.SetActive(false);
         ClearPanel.SetActive(false);
-        testSetBlockFlag2();
+        //testSetBlockFlag2();
+        OnLoad(GManager.instance.stageNum);
+        testSetBlockFlagJson(stageLoad);
+        //testSetBlockFlag();
         blocksPos = new BlocksPos[12,11];
         for(int i=0; i<12; i++)
         {
@@ -36,8 +60,14 @@ public class Board : MonoBehaviour
         {
             for (int j = 0; j < 11; j++)
             {
+                if(BlockFlag[i, j] > 0)
+                {
+                    blocksPos[i, j].myBlock = Instantiate(Block[(BlockFlag[i, j] - 1)], new Vector3(blocksPos[i, j].blockXpos, blocksPos[i, j].blockYpos), Quaternion.identity);
+                }
+                
+                
                 //Debug.Log(i);
-                if (BlockFlag[i, j] == 1)
+                /*if (BlockFlag[i, j] == 1)
                 {
                     //Instantiate(Block, new Vector3(blocksPos[i, j].blockXpos, blocksPos[i, j].blockYpos), Quaternion.identity);
                     //blocksPos[i, j].createBlock();
@@ -46,7 +76,7 @@ public class Board : MonoBehaviour
                 else if(BlockFlag[i, j] == 2)
                 {
                     blocksPos[i, j].myBlock = Instantiate(Block[1], new Vector3(blocksPos[i, j].blockXpos, blocksPos[i, j].blockYpos), Quaternion.identity);
-                }
+                }*/
             }
         }
     }
@@ -135,6 +165,7 @@ public class Board : MonoBehaviour
                 {
                     blocksPos[i, j].myBlock = blocksPos[i - 1, j].myBlock;
                     blocksPos[i, j].setBlockPos();
+                    blocksPos[i - 1, j].myBlock = null;
                 }
 
                 else
@@ -228,21 +259,27 @@ public class Board : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    public void ReturnSelectScene()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("StageSelect");
+    }
+
     void testSetBlockFlag()
     {
         BlockFlag = new int[12, 11] {
             {0,0,0,0,0,0,0,0,0,0,0},
-            {1,1,1,1,1,1,1,1,1,0,1},
-            {1,1,1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1,0,1},
-            {1,1,1,1,0,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1,0,1},
-            {1,1,1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1,0,1},
-            {1,1,1,1,1,1,1,1,1,1,1},
-            {0,0,0,0,0,0,0,0,0,0,1},
-            {0,0,0,0,1,0,0,0,0,1,1},
-            {0,0,0,0,0,0,0,0,0,0,1}
+            {0,1,1,2,0,2,1,0,2,0,1},
+            {0,0,1,2,0,2,0,0,0,1,2},
+            {1,0,2,2,0,2,2,1,1,0,2},
+            {1,1,1,2,2,0,1,0,1,0,0},
+            {2,1,1,2,0,0,2,2,1,1,2},
+            {2,1,2,2,2,2,2,1,2,1,2},
+            {2,2,2,2,0,1,1,1,1,2,2},
+            {1,1,1,2,1,2,0,1,1,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0}
         };
     }
 
@@ -262,5 +299,40 @@ public class Board : MonoBehaviour
             {0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0}
         };
+    }
+
+    void testSetBlockFlagJson(string s)
+    {
+        BlockFlag = new int[12, 11];
+        int testNum = 0;
+        for(int i=0; i < 12; i++)
+        {
+            for(int j=0; j<11; j++)
+            {
+                string temp = s.Substring(testNum, 1);
+                BlockFlag[i, j] = int.Parse(temp);
+                testNum++;
+            }
+        }
+    }
+
+    // JSON形式をロードしてデシリアライズ
+    private void OnLoad(int stageNum)
+    {
+        // 念のためファイルの存在チェック
+        if (!File.Exists(_dataPath)) return;
+
+        // JSONデータとしてデータを読み込む
+        var json = File.ReadAllText(_dataPath);
+
+        // JSON形式からオブジェクトにデシリアライズ
+        var obj = JsonUtility.FromJson<PositionData>(json);
+
+        // Transformにオブジェクトのデータをセット
+        //transform.position = obj.position;
+
+        //ステージの文字列を現在のステージにインポート
+        stageLoad = obj.strlist[stageNum];
+
     }
 }

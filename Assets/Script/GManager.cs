@@ -6,21 +6,12 @@ public class GManager : MonoBehaviour
 {
     //GameManagerのインスタンスをnullにする
     public static GManager instance = null;
-    //ボールの生成判定
-    public bool createBall_bool = false;
 
     //ボールの初期位置
     public GameObject ballBornPoint;
 
-    //クリックした位置の正面
-    public float forward;
-    public Vector3 force;
-
-    //
-    public Transform RespornPosition = null;
-    public Vector2 Rpos;
-    public GameObject respornPoint;
-    public bool respornBool;
+    //ステージの番号記録変数
+    public int stageNum;
 
     public enum GameState
     {
@@ -51,18 +42,14 @@ public class GManager : MonoBehaviour
     void Start()
     {
         gameState = GameState.PlayerTurn;
-        respornPoint = GameObject.Find("RespornPoint");
+        //respornPoint = GameObject.Find("RespornPoint");
         Debug.Log(Screen.width);
-        Init();
+        //Init();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            //setState();
-        }
     }
 
     void Init()

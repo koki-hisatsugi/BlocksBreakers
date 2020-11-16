@@ -5,7 +5,6 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     public float speed = 100;
-    Vector3 forceBall;
 
     Rigidbody2D rb;
     Vector3 force;
@@ -29,10 +28,6 @@ public class Ball : MonoBehaviour
     public float backupXpos;
     public float horizontalcount;
     public float vaticalcount;
-    private void Awake()
-    {
-        forceBall = GManager.instance.force;
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -43,9 +38,6 @@ public class Ball : MonoBehaviour
         //力を設定
         force = new Vector3(1.5f, 0.5f, 0.0f) * speed;
         //力を加える
-        //rb.AddForce(force);
-        //rb.AddForce(forceBall*speed);
-        Debug.Log(forceBall);
         onUG = false;
         smoothTime = 0.5f;
         //velocity = Vector2.zero;

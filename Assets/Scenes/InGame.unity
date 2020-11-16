@@ -775,9 +775,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 593638322}
-        m_TargetAssemblyTypeName: BallManager, Assembly-CSharp
-        m_MethodName: ballResume
+      - m_Target: {fileID: 2074969078}
+        m_TargetAssemblyTypeName: Board, Assembly-CSharp
+        m_MethodName: ReturnSelectScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1306,7 +1306,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 321d1867cb1ed52468bc330dfa7a685d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 18a96445fd0cb354094b0a105d64c141, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2564,8 +2564,6 @@ GameObject:
   - component: {fileID: 1818057543}
   - component: {fileID: 1818057542}
   - component: {fileID: 1818057541}
-  - component: {fileID: 1818057540}
-  - component: {fileID: 1818057544}
   m_Layer: 0
   m_Name: RespornPoint
   m_TagString: Untagged
@@ -2573,19 +2571,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &1818057540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1818057539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 007619fead111c645a30ed5ab60f20ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  balls: {fileID: 6836249861861678852, guid: 09b271cac5fc0244b873b8fbaff482fa, type: 3}
 --- !u!58 &1818057541
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2668,19 +2653,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1818057544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1818057539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0847ad0c98197574db5225bbb763084b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Arrow: {fileID: 140554048}
 --- !u!1 &1828708118
 GameObject:
   m_ObjectHideFlags: 0
@@ -3225,11 +3197,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Block:
-  - {fileID: 2886559431574513950, guid: 08f23ae7340c4e1489709c06d2177e0f, type: 3}
-  - {fileID: 5107931101098781542, guid: f657ecd4018b0d042818fc7855f59a4b, type: 3}
+  - {fileID: 2886559431574513950, guid: b0d6252bc8a77c34f87f45c548716af1, type: 3}
+  - {fileID: 2886559431574513950, guid: 069deb2af9183804388d449a001172e5, type: 3}
+  - {fileID: 2886559431574513950, guid: 1d723cad8ef1f4949903467c49b51d97, type: 3}
+  - {fileID: 2886559431574513950, guid: 697e22d2d2393a0488174acaee63a69b, type: 3}
+  - {fileID: 5107931101098781542, guid: a829fec75e50bba42aac1155f9d25f81, type: 3}
+  - {fileID: 5107931101098781542, guid: 961aa37d763de5544b5ec1ba3e0901ba, type: 3}
+  - {fileID: 5107931101098781542, guid: 24e40c0b2f6e9384294655aef05b09cb, type: 3}
+  - {fileID: 5107931101098781542, guid: 35ea1a53ff2b97c4e9d44854ebef8527, type: 3}
   denText: {fileID: 1813920375}
   GOPanel: {fileID: 1828708118}
   ClearPanel: {fileID: 296877744}
+  stageLoad: 
 --- !u!4 &2074969079
 Transform:
   m_ObjectHideFlags: 0
