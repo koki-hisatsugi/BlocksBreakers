@@ -82,6 +82,8 @@ public class JsonSerializationTest : MonoBehaviour
 
         // JSONデータをファイルに保存
         File.WriteAllText(_dataPath, json);
+
+        File.WriteAllText(_dataPath, json);
     }
 
     // JSON形式をロードしてデシリアライズ
