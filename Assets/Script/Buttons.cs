@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using KanKikuchi.AudioManager;
 
 public class Buttons : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class Buttons : MonoBehaviour
     public void stageSelect()
     {
         GManager.instance.stageNum = int.Parse(buttonNum.text);
+        SEManager.Instance.Play(SEPath.FANTASYCLICKSOUNDS1);
         SceneManager.LoadScene("InGame");
     }
 }

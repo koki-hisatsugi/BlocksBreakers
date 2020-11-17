@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
+using KanKikuchi.AudioManager;
 
 public class Board : MonoBehaviour
 {
@@ -243,6 +244,7 @@ public class Board : MonoBehaviour
     {
         yield return new WaitForSeconds(1.0f);
         denText.SetActive(false);
+        //SEManager.Instance.Stop(SEPath.ALERTSOUNDS5);
     }
 
     //ゲームオーバーコルーチン
@@ -250,6 +252,7 @@ public class Board : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         GOPanel.SetActive(true);
+        SEManager.Instance.Play(SEPath.LOSESOUND7);
         Time.timeScale = 0;
     }
 
@@ -258,18 +261,29 @@ public class Board : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         ClearPanel.SetActive(true);
+        SEManager.Instance.Play(SEPath.WINSOUND3);
         Time.timeScale = 0;
     }
 
     public void SceneReload()
     {
         Time.timeScale = 1;
+        SEManager.Instance.Play(SEPath.CLICKSOUNDS10);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void NextScene()
+    {
+        Time.timeScale = 1;
+        SEManager.Instance.Play(SEPath.CLICKSOUNDS10);
+        GManager.instance.stageNum++;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void ReturnSelectScene()
     {
         Time.timeScale = 1;
+        SEManager.Instance.Play(SEPath.CLICKSOUNDS10);
         SceneManager.LoadScene("StageSelect");
     }
 
@@ -318,6 +332,29 @@ public class Board : MonoBehaviour
             for(int j=0; j<11; j++)
             {
                 string temp = s.Substring(testNum, 1);
+                switch (temp)
+                {
+                    case "a":
+                        temp = "10";
+                        break;
+                    case "b":
+                        temp = "11";
+                        break;
+                    case "c":
+                        temp = "12";
+                        break;
+                    case "d":
+                        temp = "13";
+                        break;
+                    case "e":
+                        temp = "14";
+                        break;
+                    case "f":
+                        temp = "15";
+                        break;
+                    default:
+                        break;
+                }
                 BlockFlag[i, j] = int.Parse(temp);
                 testNum++;
             }
@@ -331,7 +368,8 @@ public class Board : MonoBehaviour
         if (!File.Exists(_dataPath)) return;
 
         // JSONデータとしてデータを読み込む
-        var json = File.ReadAllText(_dataPath);
+        //var json = File.ReadAllText(_dataPath);
+        var json = Resources.Load<TextAsset>("Stage").ToString();
 
         // JSON形式からオブジェクトにデシリアライズ
         var obj = JsonUtility.FromJson<PositionData>(json);

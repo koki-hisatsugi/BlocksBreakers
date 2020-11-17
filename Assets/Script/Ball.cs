@@ -29,6 +29,8 @@ public class Ball : MonoBehaviour
     public float horizontalcount;
     public float vaticalcount;
 
+    public Vector3 lookVelocity;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,8 +48,9 @@ public class Ball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rbvelocity = rb.velocity;
-        rb.velocity = rbvelocity;
+        //rbvelocity = rb.velocity;
+        //rb.velocity = rbvelocity;
+        lookVelocity = rb.velocity;
     }
 
     private void FixedUpdate()
@@ -67,13 +70,25 @@ public class Ball : MonoBehaviour
     public void setForce(Vector3 pos)
     {
         Debug.Log(pos);
-        rb.AddForce(pos * speed);
+        //rb.AddForce(pos * speed);
+        rb.velocity = pos*speed;
         horizontalcount = 0;
+    }
+
+    public bool EventPass = false;
+    public void setEventForce(Vector3 pos)
+    {
+        if (!EventPass)
+        {
+            rb.velocity = pos * speed;
+            EventPass = true;
+        }
     }
 
     public void forceZero()
     {
         rb.velocity = Vector3.zero;
+        EventPass = false;
     }
 
     public void setSmooth(Vector3 vec3)
@@ -90,6 +105,7 @@ public class Ball : MonoBehaviour
         rb.velocity = Vector3.zero;
         iTween.MoveTo(gameObject, iTween.Hash("x", vec.x, "y", vec.y));
         gameObject.tag = "Untagged";
+        EventPass = false;
         //transform.position = Destination;
 
     }

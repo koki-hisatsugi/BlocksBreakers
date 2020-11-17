@@ -48,7 +48,8 @@ public class Create : MonoBehaviour
         if (!File.Exists(_dataPath)) return;
 
         // JSONデータとしてデータを読み込む
-        var json = File.ReadAllText(_dataPath);
+        //var json = File.ReadAllText(_dataPath);
+        var json = Resources.Load<TextAsset>("Stage").ToString();
 
         // JSON形式からオブジェクトにデシリアライズ
         var obj = JsonUtility.FromJson<PositionData>(json);

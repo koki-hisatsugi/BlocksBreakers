@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using KanKikuchi.AudioManager;
 
 public class BallManager : MonoBehaviour
 {
@@ -166,6 +167,7 @@ public class BallManager : MonoBehaviour
     public void ballPause()
     {
         PausePanel.SetActive(true);
+        SEManager.Instance.Play(SEPath.CLICKSOUNDS10);
         Time.timeScale = 0;
         setGameStateKey();
         GManager.instance.setState("Pause");
@@ -177,6 +179,7 @@ public class BallManager : MonoBehaviour
     public void ballResume()
     {
         PausePanel.SetActive(false);
+        SEManager.Instance.Play(SEPath.CLICKSOUNDS10);
         Time.timeScale = 1;
         //GManager.instance.setState(gameStateKeyBK);
         StartCoroutine("GameStateRelese");
