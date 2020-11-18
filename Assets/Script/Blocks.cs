@@ -12,9 +12,13 @@ public class Blocks : MonoBehaviour
     [SerializeField]
     private Animator animator;
 
+    [SerializeField]
+    private GameObject board;
+
     // Start is called before the first frame update
     void Start()
     {
+        board = GameObject.Find("Board");
         textMesh.text = blockHP.ToString();
         animator = GetComponent<Animator>();
     }
@@ -40,7 +44,10 @@ public class Blocks : MonoBehaviour
                 SEManager.Instance.Play(SEPath.POPSOUNDS3);
                 if (blockHP == 0)
                 {
+                    board.GetComponent<Board>().blockDestroyCheck();
                     Destroy(gameObject);
+                    GManager.instance.ChainScore++;
+                    GManager.instance.stageScore += 200 * GManager.instance.ChainScore;
                 }
             }
 
@@ -62,13 +69,24 @@ public class Blocks : MonoBehaviour
                 SEManager.Instance.Play(SEPath.POPSOUNDS3);
                 if (blockHP == 0)
                 {
+                    board.GetComponent<Board>().blockDestroyCheck();
                     Destroy(gameObject);
+                    GManager.instance.ChainScore++;
+                    GManager.instance.stageScore += 200 * GManager.instance.ChainScore;
                 }
             }
         }
 
     }
 
+
+    IEnumerator dengerCheckCol()
+    {
+        yield return new WaitForSeconds(0.1f);
+        board.GetComponent<Board>().dengerCheck();
+    }
+
+    /*使ってません
     public void Damage()
     {
         if (blockHP > 0)
@@ -83,7 +101,7 @@ public class Blocks : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-    }
+    }*/
 
     public void animend()
     {

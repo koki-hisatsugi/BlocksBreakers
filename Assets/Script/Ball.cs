@@ -51,6 +51,15 @@ public class Ball : MonoBehaviour
         //rbvelocity = rb.velocity;
         //rb.velocity = rbvelocity;
         lookVelocity = rb.velocity;
+        if(GManager.instance.getState()== GManager.GameState.PlayerTurn)
+        {
+            GetComponent<Collider2D>().enabled = false;
+        }
+        else
+        {
+            
+            GetComponent<Collider2D>().enabled = true;
+        }
     }
 
     private void FixedUpdate()
@@ -69,7 +78,6 @@ public class Ball : MonoBehaviour
 
     public void setForce(Vector3 pos)
     {
-        Debug.Log(pos);
         //rb.AddForce(pos * speed);
         rb.velocity = pos*speed;
         horizontalcount = 0;

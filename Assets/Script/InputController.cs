@@ -15,8 +15,20 @@ public class InputController : MonoBehaviour
 
     private GameObject Twall;
 
+    //シーン遷移のフェード格納
+    [SerializeField]
+    GameObject FadeCanvas;
+    Fade _fade;
+
     void Start()
     {
+        //フェードの格納
+        FadeCanvas = GameObject.Find("FadeCanvas(Clone)");
+        _fade = FadeCanvas.GetComponent<Fade>();
+        //フェードアウト処理
+        _fade.FadeOut(0.5f, (() =>
+        {}));
+
         estimation = GetComponent<Estimation>();
         ballManager = GetComponent<BallManager>();
         Twall = GameObject.Find("Twall");

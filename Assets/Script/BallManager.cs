@@ -146,14 +146,29 @@ public class BallManager : MonoBehaviour
 
     }
 
+    public void clearPosSuspention()
+    {
+        if (isShooting)
+        {
+            for (int i = 0; i < balls.Count; i++)
+            {
+                balls[i].GetComponent<Ball>().setReturn(ballBornPoint.position);
+            }
+            returnBall = MaxBall;
+            isShooting = false;
+            aggregation = true;
+            StopCoroutine("shoot");
+        }
+    }
+
     //ブロック下げるコルーチン
     IEnumerator downBlocks()
     {
         yield return new WaitForSeconds(1.0f);
         Board.GetComponent<Board>().testDownBlocks();
         yield return new WaitForSeconds(0.5f);
-        Board.GetComponent<Board>().dengerCheck();
         GManager.instance.setState("PlayerTurn");
+        Board.GetComponent<Board>().dengerCheck();
     }
 
 

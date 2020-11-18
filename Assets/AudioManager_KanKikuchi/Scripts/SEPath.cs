@@ -14,6 +14,7 @@ public static class SEPath{
 	public const string POWERUPUPGRADE2     = "SE/Powerup upgrade 2";
 	public const string SYSTEM20            = "SE/system20";
 	public const string SYSTEM23            = "SE/system23";
+	public const string WINSOUND24          = "SE/Jingle/Win sound 24";
 	public const string WINSOUND3           = "SE/Win sound 3";
 
 }

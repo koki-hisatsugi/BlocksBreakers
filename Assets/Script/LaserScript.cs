@@ -18,12 +18,12 @@ public class LaserScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("ontrigger1団目");
+        /*Debug.Log("ontrigger1団目");
         Debug.Log(collision.gameObject.tag);
         if (collision.gameObject.tag == "Blocks")
         {
             Debug.Log("ontrigger2団目");
             collision.gameObject.GetComponent<Blocks>().Damage();
-        }
+        }*/
     }
 }

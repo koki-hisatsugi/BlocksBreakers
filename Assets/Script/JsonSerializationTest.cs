@@ -117,7 +117,7 @@ public class JsonSerializationTest : MonoBehaviour
     //手作業でステージを作成する
     public string[] createStagesManual()
     {
-        string[] outStr = new string[11];
+        string[] outStr = new string[20];
 
         int[,] stage1 = new int[12, 11] {
             {0,0,0,0,0,0,0,0,0,0,0},
@@ -365,9 +365,9 @@ public class JsonSerializationTest : MonoBehaviour
             {0,2,0,0,3,0,4,0,0,2,0},
             {0,0,1,0,0,0,0,0,1,0,0},
             {0,0,1,2,0,9,0,2,1,0,0},
-            {0,0,1,0,2,0,2,0,1,0,12},
-            {0,0,1,0,0,0,0,0,1,0,12},
-            {0,0,1,0,0,0,0,0,1,0,12},
+            {10,0,4,0,2,0,2,0,4,0,10},
+            {10,0,4,4,4,0,4,4,4,0,10},
+            {10,0,4,4,4,0,4,4,4,0,10},
             {0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0},
@@ -418,6 +418,547 @@ public class JsonSerializationTest : MonoBehaviour
             }
         }
         outStr[10] = temp;
+
+        stage1 = new int[12, 11] {
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,2,2,2,2,2,2,2,0,0},
+            {0,0,2,2,2,2,2,2,2,0,0},
+            {0,0,11,11,11,11,11,11,11,0,0},
+            {0,0,2,2,2,2,2,2,2,0,0},
+            {0,0,2,2,2,2,2,2,2,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0}
+        };
+        temp = null;
+        for (int i = 0; i < 12; i++)
+        {
+            for (int j = 0; j < 11; j++)
+            {
+                if (stage1[i, j] < 10)
+                {
+                    temp += stage1[i, j];
+                }
+                else
+                {
+                    string alpha;
+                    switch (stage1[i, j])
+                    {
+                        case 10:
+                            alpha = "a";
+                            temp += alpha;
+                            break;
+                        case 11:
+                            alpha = "b";
+                            temp += alpha;
+                            break;
+                        case 12:
+                            alpha = "c";
+                            temp += alpha;
+                            break;
+                        case 13:
+                            alpha = "d";
+                            temp += alpha;
+                            break;
+                        case 14:
+                            alpha = "e";
+                            temp += alpha;
+                            break;
+                        case 15:
+                            alpha = "f";
+                            temp += alpha;
+                            break;
+                    }
+
+
+                }
+            }
+        }
+        outStr[11] = temp;
+
+
+        stage1 = new int[12, 11] {
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,3,3,3,3,3,0,10,0,0},
+            {0,0,3,3,3,3,3,0,10,0,0},
+            {0,0,3,3,3,3,3,0,10,0,0},
+            {0,0,4,3,3,3,3,0,0,0,0},
+            {0,7,0,0,0,0,0,0,6,0,0},
+            {4,0,4,4,4,0,3,3,0,0,0},
+            {0,5,0,0,0,8,0,0,0,0,0},
+            {0,0,4,4,4,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0}
+        };
+        temp = null;
+        for (int i = 0; i < 12; i++)
+        {
+            for (int j = 0; j < 11; j++)
+            {
+                if (stage1[i, j] < 10)
+                {
+                    temp += stage1[i, j];
+                }
+                else
+                {
+                    string alpha;
+                    switch (stage1[i, j])
+                    {
+                        case 10:
+                            alpha = "a";
+                            temp += alpha;
+                            break;
+                        case 11:
+                            alpha = "b";
+                            temp += alpha;
+                            break;
+                        case 12:
+                            alpha = "c";
+                            temp += alpha;
+                            break;
+                        case 13:
+                            alpha = "d";
+                            temp += alpha;
+                            break;
+                        case 14:
+                            alpha = "e";
+                            temp += alpha;
+                            break;
+                        case 15:
+                            alpha = "f";
+                            temp += alpha;
+                            break;
+                    }
+
+
+                }
+            }
+        }
+        outStr[12] = temp;
+        stage1 = new int[12, 11] {
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,3,3,3,0,4,4,4,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,1,1,1,9,2,2,2,0,0},
+            {0,0,1,0,1,0,2,0,2,0,0},
+            {0,0,1,1,1,0,2,2,2,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0}
+        };
+        temp = null;
+        for (int i = 0; i < 12; i++)
+        {
+            for (int j = 0; j < 11; j++)
+            {
+                if (stage1[i, j] < 10)
+                {
+                    temp += stage1[i, j];
+                }
+                else
+                {
+                    string alpha;
+                    switch (stage1[i, j])
+                    {
+                        case 10:
+                            alpha = "a";
+                            temp += alpha;
+                            break;
+                        case 11:
+                            alpha = "b";
+                            temp += alpha;
+                            break;
+                        case 12:
+                            alpha = "c";
+                            temp += alpha;
+                            break;
+                        case 13:
+                            alpha = "d";
+                            temp += alpha;
+                            break;
+                        case 14:
+                            alpha = "e";
+                            temp += alpha;
+                            break;
+                        case 15:
+                            alpha = "f";
+                            temp += alpha;
+                            break;
+                    }
+
+
+                }
+            }
+        }
+        outStr[13] = temp;
+
+        stage1 = new int[12, 11] {
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {3,3,3,3,3,10,4,4,4,4,4},
+            {3,3,3,3,3,10,4,4,4,4,4},
+            {3,3,3,3,3,10,4,4,4,4,4},
+            {3,3,3,3,3,10,4,4,4,4,4},
+            {3,3,3,3,3,10,4,4,4,4,4},
+            {3,3,3,3,3,10,4,4,4,4,4},
+            {3,3,3,3,3,10,4,4,4,4,4},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0}
+        };
+        temp = null;
+        for (int i = 0; i < 12; i++)
+        {
+            for (int j = 0; j < 11; j++)
+            {
+                if (stage1[i, j] < 10)
+                {
+                    temp += stage1[i, j];
+                }
+                else
+                {
+                    string alpha;
+                    switch (stage1[i, j])
+                    {
+                        case 10:
+                            alpha = "a";
+                            temp += alpha;
+                            break;
+                        case 11:
+                            alpha = "b";
+                            temp += alpha;
+                            break;
+                        case 12:
+                            alpha = "c";
+                            temp += alpha;
+                            break;
+                        case 13:
+                            alpha = "d";
+                            temp += alpha;
+                            break;
+                        case 14:
+                            alpha = "e";
+                            temp += alpha;
+                            break;
+                        case 15:
+                            alpha = "f";
+                            temp += alpha;
+                            break;
+                    }
+
+
+                }
+            }
+        }
+        outStr[14] = temp;
+
+        stage1 = new int[12, 11] {
+            {0,0,0,0,0,4,0,0,0,0,0},
+            {0,0,0,0,10,0,10,0,0,0,0},
+            {0,0,0,10,0,1,0,10,0,0,0},
+            {0,0,4,0,0,1,0,0,4,0,0},
+            {0,0,0,0,0,1,0,0,0,0,0},
+            {0,0,0,0,0,1,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,1,0,0,0,0,0},
+            {0,0,5,0,0,0,0,0,0,4,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0}
+        };
+        temp = null;
+        for (int i = 0; i < 12; i++)
+        {
+            for (int j = 0; j < 11; j++)
+            {
+                if (stage1[i, j] < 10)
+                {
+                    temp += stage1[i, j];
+                }
+                else
+                {
+                    string alpha;
+                    switch (stage1[i, j])
+                    {
+                        case 10:
+                            alpha = "a";
+                            temp += alpha;
+                            break;
+                        case 11:
+                            alpha = "b";
+                            temp += alpha;
+                            break;
+                        case 12:
+                            alpha = "c";
+                            temp += alpha;
+                            break;
+                        case 13:
+                            alpha = "d";
+                            temp += alpha;
+                            break;
+                        case 14:
+                            alpha = "e";
+                            temp += alpha;
+                            break;
+                        case 15:
+                            alpha = "f";
+                            temp += alpha;
+                            break;
+                    }
+
+
+                }
+            }
+        }
+        outStr[15] = temp;
+
+        stage1 = new int[12, 11] {
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,4,4,4,5,0,0,0},
+            {5,0,0,6,0,0,0,0,5,0,0},
+            {4,5,6,0,2,0,0,2,0,5,0},
+            {3,7,8,0,0,0,0,0,0,7,0},
+            {7,0,0,8,0,0,0,0,7,0,0},
+            {0,0,0,0,3,3,3,7,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0}
+        };
+        temp = null;
+        for (int i = 0; i < 12; i++)
+        {
+            for (int j = 0; j < 11; j++)
+            {
+                if (stage1[i, j] < 10)
+                {
+                    temp += stage1[i, j];
+                }
+                else
+                {
+                    string alpha;
+                    switch (stage1[i, j])
+                    {
+                        case 10:
+                            alpha = "a";
+                            temp += alpha;
+                            break;
+                        case 11:
+                            alpha = "b";
+                            temp += alpha;
+                            break;
+                        case 12:
+                            alpha = "c";
+                            temp += alpha;
+                            break;
+                        case 13:
+                            alpha = "d";
+                            temp += alpha;
+                            break;
+                        case 14:
+                            alpha = "e";
+                            temp += alpha;
+                            break;
+                        case 15:
+                            alpha = "f";
+                            temp += alpha;
+                            break;
+                    }
+
+
+                }
+            }
+        }
+        outStr[16] = temp;
+
+        stage1 = new int[12, 11] {
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,7,8,0,0,0,7,8,0,0},
+            {0,4,0,0,4,4,4,0,0,4,0},
+            {0,8,0,0,0,0,0,0,0,7,0},
+            {0,0,8,0,0,0,0,0,7,0,0},
+            {0,0,0,8,0,9,0,7,0,0,0},
+            {0,0,0,0,8,0,7,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0}
+        };
+        temp = null;
+        for (int i = 0; i < 12; i++)
+        {
+            for (int j = 0; j < 11; j++)
+            {
+                if (stage1[i, j] < 10)
+                {
+                    temp += stage1[i, j];
+                }
+                else
+                {
+                    string alpha;
+                    switch (stage1[i, j])
+                    {
+                        case 10:
+                            alpha = "a";
+                            temp += alpha;
+                            break;
+                        case 11:
+                            alpha = "b";
+                            temp += alpha;
+                            break;
+                        case 12:
+                            alpha = "c";
+                            temp += alpha;
+                            break;
+                        case 13:
+                            alpha = "d";
+                            temp += alpha;
+                            break;
+                        case 14:
+                            alpha = "e";
+                            temp += alpha;
+                            break;
+                        case 15:
+                            alpha = "f";
+                            temp += alpha;
+                            break;
+                    }
+
+
+                }
+            }
+        }
+        outStr[17] = temp;
+
+        stage1 = new int[12, 11] {
+            {0,0,0,0,0,1,0,0,0,0,0},
+            {0,7,0,0,0,0,0,4,0,8,0},
+            {0,0,0,3,0,1,0,0,0,0,0},
+            {0,0,0,3,0,0,0,4,0,0,0},
+            {0,0,0,3,0,1,0,0,0,0,0},
+            {0,0,0,3,0,0,0,4,0,0,0},
+            {0,0,0,3,0,1,0,0,0,0,0},
+            {0,0,0,3,0,0,0,4,0,0,0},
+            {0,5,0,0,0,1,0,0,0,6,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0}
+        };
+        temp = null;
+        for (int i = 0; i < 12; i++)
+        {
+            for (int j = 0; j < 11; j++)
+            {
+                if (stage1[i, j] < 10)
+                {
+                    temp += stage1[i, j];
+                }
+                else
+                {
+                    string alpha;
+                    switch (stage1[i, j])
+                    {
+                        case 10:
+                            alpha = "a";
+                            temp += alpha;
+                            break;
+                        case 11:
+                            alpha = "b";
+                            temp += alpha;
+                            break;
+                        case 12:
+                            alpha = "c";
+                            temp += alpha;
+                            break;
+                        case 13:
+                            alpha = "d";
+                            temp += alpha;
+                            break;
+                        case 14:
+                            alpha = "e";
+                            temp += alpha;
+                            break;
+                        case 15:
+                            alpha = "f";
+                            temp += alpha;
+                            break;
+                    }
+
+
+                }
+            }
+        }
+        outStr[18] = temp;
+
+        stage1 = new int[12, 11] {
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,11,11,11,11,11,11,11,0,0},
+            {0,0,4,4,4,4,4,4,4,0,0},
+            {0,0,4,4,4,4,4,4,4,0,0},
+            {0,0,4,4,4,4,4,4,4,0,0},
+            {0,0,4,4,4,4,4,4,4,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0}
+        };
+        temp = null;
+        for (int i = 0; i < 12; i++)
+        {
+            for (int j = 0; j < 11; j++)
+            {
+                if (stage1[i, j] < 10)
+                {
+                    temp += stage1[i, j];
+                }
+                else
+                {
+                    string alpha;
+                    switch (stage1[i, j])
+                    {
+                        case 10:
+                            alpha = "a";
+                            temp += alpha;
+                            break;
+                        case 11:
+                            alpha = "b";
+                            temp += alpha;
+                            break;
+                        case 12:
+                            alpha = "c";
+                            temp += alpha;
+                            break;
+                        case 13:
+                            alpha = "d";
+                            temp += alpha;
+                            break;
+                        case 14:
+                            alpha = "e";
+                            temp += alpha;
+                            break;
+                        case 15:
+                            alpha = "f";
+                            temp += alpha;
+                            break;
+                    }
+
+
+                }
+            }
+        }
+        outStr[19] = temp;
+
         return outStr;
     }
 }

@@ -1,11 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GManager : MonoBehaviour
 {
     //GameManagerのインスタンスをnullにする
     public static GManager instance = null;
+    //FadeCanvasのインスタンスをnullにする
+    public GameObject FadeCanvas = null;
+    //FadeCanvasをインスタンス化するときのプレハブ
+    public GameObject _FadeCanvas;
+
+    //ターンを記録
+    public float trunCount;
 
     //ボールの初期位置
     public GameObject ballBornPoint;
@@ -21,6 +29,10 @@ public class GManager : MonoBehaviour
         Pause,
     }
     [SerializeField] private GameState gameState;
+    public float stageScoreMax;
+    public float stageScore;
+    public float ChainScore;
+
 
     private void Awake()
     {
@@ -30,12 +42,13 @@ public class GManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(this.gameObject);
+            FadeCanvas = Instantiate(_FadeCanvas);
+            DontDestroyOnLoad(FadeCanvas);
         }
         else
         {
             Destroy(this.gameObject);
         }
-
         //respornPoint = GameObject.Find("RespornPoint");
     }
     // Start is called before the first frame update
@@ -43,7 +56,7 @@ public class GManager : MonoBehaviour
     {
         gameState = GameState.PlayerTurn;
         //respornPoint = GameObject.Find("RespornPoint");
-        Debug.Log(Screen.width);
+        Debug.Log("Gマネージャー確認"+Screen.width);
         //Init();
     }
 

@@ -10,6 +10,8 @@ TagManager:
   - HEvent
   - Laser
   - Blocks
+  - Green
+  - VEvent
   layers:
   - Default
   - TransparentFX

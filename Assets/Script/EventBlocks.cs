@@ -15,7 +15,11 @@ public class EventBlocks : MonoBehaviour
         {
             //LaserSprite = transform.GetChild(1).gameObject;
             //LaserSprite.SetActive(false);
-            Mylaser = Instantiate(LaserSprite, transform.position, Quaternion.identity);
+            Mylaser = Instantiate(LaserSprite, new Vector3(0,transform.position.y,0), Quaternion.identity);
+            Mylaser.SetActive(false);
+        }else if(gameObject.tag == "VEvent")
+        {
+            Mylaser = Instantiate(LaserSprite, new Vector3(transform.position.x, 0, 0), Quaternion.identity);
             Mylaser.SetActive(false);
         }
     }
@@ -23,7 +27,10 @@ public class EventBlocks : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (GManager.instance.trunCount > 1)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -53,10 +60,14 @@ public class EventBlocks : MonoBehaviour
             if (gameObject.tag == "HEvent")
             {
                 //LaserSprite.SetActive(true);
-                Mylaser.transform.position = gameObject.transform.position;
+                Mylaser.transform.position = new Vector3(0, transform.position.y, 0);
                 Mylaser.SetActive(true);
                 //Mylaser =Instantiate(LaserSprite, transform.position,Quaternion.identity);
                 
+            }else if(gameObject.tag == "VEvent")
+            {
+                Mylaser.transform.position = new Vector3(transform.position.x, 0, 0);
+                Mylaser.SetActive(true);
             }
         }
     }
@@ -64,7 +75,7 @@ public class EventBlocks : MonoBehaviour
     {
         if (collision.gameObject.tag == "ball")
         {
-            if (gameObject.tag == "HEvent")
+            if (gameObject.tag == "HEvent" || gameObject.tag == "VEvent")
             {
                 //LaserSprite.SetActive(false);
                 //Destroy(Mylaser);

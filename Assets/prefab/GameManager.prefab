@@ -43,3 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dca9b7b7278b0d41bca6d8e0b4b2fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _FadeCanvas: {fileID: 141186, guid: 53c22e1773be7f84aad8ed8b7b58fa6e, type: 3}
+  ballBornPoint: {fileID: 0}
+  stageNum: 0
+  gameState: 0

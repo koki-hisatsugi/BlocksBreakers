@@ -45,7 +45,7 @@ public class Create : MonoBehaviour
     private void OnLoad()
     {
         // 念のためファイルの存在チェック
-        if (!File.Exists(_dataPath)) return;
+        //if (!File.Exists(_dataPath)) return;
 
         // JSONデータとしてデータを読み込む
         //var json = File.ReadAllText(_dataPath);

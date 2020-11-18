@@ -16,6 +16,10 @@ public class Board : MonoBehaviour
         public int[] intlist;
         public string[] strlist;
     }
+    //シーン遷移のフェード格納
+    [SerializeField]
+    GameObject FadeCanvas;
+    Fade _fade;
 
     // ファイルパス
     private string _dataPath;
@@ -30,6 +34,11 @@ public class Board : MonoBehaviour
 
     public string stageLoad;
 
+    public GameObject inputController;
+    //ステージの点数を計算用
+    public float MathPoint;
+    public float MaxPoint;
+
     private void Awake()
     {
         // ファイルのパスを計算
@@ -38,9 +47,15 @@ public class Board : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //フェードの格納
+        FadeCanvas = GameObject.Find("FadeCanvas(Clone)");
+        _fade = FadeCanvas.GetComponent<Fade>();
+
+        GManager.instance.trunCount = 0;
         denText.SetActive(false);
         GOPanel.SetActive(false);
         ClearPanel.SetActive(false);
+        inputController = GameObject.Find("inputController");
         //testSetBlockFlag2();
         if (GManager.instance.stageNum > 0)
         {
@@ -72,22 +87,47 @@ public class Board : MonoBehaviour
                 if(BlockFlag[i, j] > 0)
                 {
                     blocksPos[i, j].myBlock = Instantiate(Block[(BlockFlag[i, j] - 1)], new Vector3(blocksPos[i, j].blockXpos, blocksPos[i, j].blockYpos), Quaternion.identity);
+                    MathPoint++;
                 }
-                
-                
-                //Debug.Log(i);
-                /*if (BlockFlag[i, j] == 1)
-                {
-                    //Instantiate(Block, new Vector3(blocksPos[i, j].blockXpos, blocksPos[i, j].blockYpos), Quaternion.identity);
-                    //blocksPos[i, j].createBlock();
-                    blocksPos[i, j].myBlock= Instantiate(Block[0], new Vector3(blocksPos[i, j].blockXpos, blocksPos[i, j].blockYpos), Quaternion.identity);
-                }
-                else if(BlockFlag[i, j] == 2)
-                {
-                    blocksPos[i, j].myBlock = Instantiate(Block[1], new Vector3(blocksPos[i, j].blockXpos, blocksPos[i, j].blockYpos), Quaternion.identity);
-                }*/
             }
         }
+
+        MathMaxPoint();
+    }
+
+    public void MathMaxPoint()
+    {
+        GManager.instance.stageScoreMax = 0;
+        GManager.instance.stageScore = 0;
+        GManager.instance.ChainScore = 0;
+        if (MathPoint > 30)
+        {
+            MaxPoint = 15000;
+        }
+        else if (MathPoint > 25)
+        {
+            MaxPoint = 8000;
+        }
+        else if (MathPoint > 20)
+        {
+            MaxPoint = 6000;
+        }else if(MathPoint > 15)
+        {
+            MaxPoint = 5000;
+        }
+        else if (MathPoint > 10)
+        {
+            MaxPoint = 4000;
+        }
+        else if (MathPoint > 5)
+        {
+            MaxPoint = 3000;
+        }
+        else
+        {
+            MaxPoint = 1500;
+        }
+        GManager.instance.stageScoreMax = MaxPoint;
     }
 
     // Update is called once per frame
@@ -183,15 +223,45 @@ public class Board : MonoBehaviour
 
                 }
             }
+            GManager.instance.trunCount++;
+            GManager.instance.ChainScore = 0;
         }
     }
+
+    public void blockDestroyCheck()
+    {
+        StartCoroutine("destroyCheck");
+    }
+    //クリアーチェックのコルーチン
+    IEnumerator destroyCheck()
+    {
+        yield return new WaitForSeconds(0.1f);
+        bool clear = false;//クリアのbool定義
+            for (int i = 0; i < 12; i++)
+            {
+                for (int j = 0; j < 11; j++)
+                {
+                    if (blocksPos[i, j].myBlock != null)
+                    {
+                        yield break;
+                    }
+                    clear = true;
+                }
+            }
+        if (clear)
+        {
+            inputController.GetComponent<BallManager>().clearPosSuspention();
+            StartCoroutine("ClearActive");
+        }
+    }
+
 
     public void dengerCheck()
     {
         bool denger = false;//注意喚起用のbool定義
         bool gameover = false;//ゲームオーバーのbool定義
         bool clear = false;//クリアのbool定義
-
+        Debug.Log("デンジャーチェック");
         for (int i = 0; i < 11; i++)
         {
             if (blocksPos[11, i].myBlock != null)
@@ -207,6 +277,7 @@ public class Board : MonoBehaviour
                 if (blocksPos[10, i].myBlock != null)
                 {
                     denger = true;
+                    GManager.instance.setState("BlocksTurn");
                     break;
                 }
             }
@@ -225,7 +296,6 @@ public class Board : MonoBehaviour
                 }
             }
         }
-
         if (denger)
         {
             denText.SetActive(true);
@@ -235,6 +305,8 @@ public class Board : MonoBehaviour
             StartCoroutine("GameOverActive");
         }else if (clear)
         {
+            Debug.Log("クリアーフラグ");
+            inputController.GetComponent<BallManager>().clearPosSuspention();
             StartCoroutine("ClearActive");
         }
     }
@@ -244,6 +316,7 @@ public class Board : MonoBehaviour
     {
         yield return new WaitForSeconds(1.0f);
         denText.SetActive(false);
+        GManager.instance.setState("PlayerTurn");
         //SEManager.Instance.Stop(SEPath.ALERTSOUNDS5);
     }
 
@@ -261,15 +334,20 @@ public class Board : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         ClearPanel.SetActive(true);
-        SEManager.Instance.Play(SEPath.WINSOUND3);
+        SEManager.Instance.Play(SEPath.WINSOUND24);
         Time.timeScale = 0;
     }
 
     public void SceneReload()
     {
-        Time.timeScale = 1;
         SEManager.Instance.Play(SEPath.CLICKSOUNDS10);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        _fade.FadeIn(1.0f, (() =>
+        {
+            //処理
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }));
+        Time.timeScale = 1;
+
     }
 
     public void NextScene()
@@ -277,14 +355,23 @@ public class Board : MonoBehaviour
         Time.timeScale = 1;
         SEManager.Instance.Play(SEPath.CLICKSOUNDS10);
         GManager.instance.stageNum++;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        _fade.FadeIn(1.0f, (() =>
+        {
+            //処理
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }));
     }
 
     public void ReturnSelectScene()
     {
         Time.timeScale = 1;
         SEManager.Instance.Play(SEPath.CLICKSOUNDS10);
-        SceneManager.LoadScene("StageSelect");
+        _fade.FadeIn(1.0f, (() =>
+        {
+            //処理
+            SceneManager.LoadScene("StageSelect");
+        }));
+        
     }
 
     void testSetBlockFlag()
@@ -365,7 +452,7 @@ public class Board : MonoBehaviour
     private void OnLoad(int stageNum)
     {
         // 念のためファイルの存在チェック
-        if (!File.Exists(_dataPath)) return;
+        //if (!File.Exists(_dataPath)) return;
 
         // JSONデータとしてデータを読み込む
         //var json = File.ReadAllText(_dataPath);
