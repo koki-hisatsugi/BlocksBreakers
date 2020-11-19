@@ -227,6 +227,10 @@ MonoBehaviour:
   blockHP: 50
   textMesh: {fileID: 2886559431784554325}
   animator: {fileID: 0}
+  board: {fileID: 0}
+  pointText: {fileID: 8562138589885321334, guid: 755f3adddb1ec3246bb141dabadfd08e,
+    type: 3}
+  myPointText: {fileID: 0}
 --- !u!50 &2886559431574513945
 Rigidbody2D:
   serializedVersion: 4

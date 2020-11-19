@@ -15,6 +15,9 @@ public class Blocks : MonoBehaviour
     [SerializeField]
     private GameObject board;
 
+    public GameObject pointText;
+    public GameObject myPointText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,10 +47,14 @@ public class Blocks : MonoBehaviour
                 SEManager.Instance.Play(SEPath.POPSOUNDS3);
                 if (blockHP == 0)
                 {
-                    board.GetComponent<Board>().blockDestroyCheck();
-                    Destroy(gameObject);
+                    Debug.Log(this.transform.position);
                     GManager.instance.ChainScore++;
                     GManager.instance.stageScore += 200 * GManager.instance.ChainScore;
+                    myPointText = Instantiate(pointText, this.transform.position, Quaternion.identity);
+                    //myPointText.GetComponent<PointTextMG>().setText(200 * GManager.instance.ChainScore);
+                    board.GetComponent<Board>().blockDestroyCheck();
+                    Destroy(gameObject);
+                    
                 }
             }
 
@@ -70,9 +77,10 @@ public class Blocks : MonoBehaviour
                 if (blockHP == 0)
                 {
                     board.GetComponent<Board>().blockDestroyCheck();
-                    Destroy(gameObject);
                     GManager.instance.ChainScore++;
                     GManager.instance.stageScore += 200 * GManager.instance.ChainScore;
+                    Destroy(gameObject);
+
                 }
             }
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using KanKikuchi.AudioManager;
+using TMPro;
 
 public class BallManager : MonoBehaviour
 {
@@ -33,6 +34,9 @@ public class BallManager : MonoBehaviour
     public GameObject PausePanel;
     public string gameStateKeyBK;
 
+    public GameObject ballCountObj;
+    public TextMeshProUGUI myballcount;
+
     void Start()
     {
         PausePanel.SetActive(false);
@@ -41,6 +45,8 @@ public class BallManager : MonoBehaviour
         aggregation = false;
         Board = GameObject.Find("Board");
         StartCoroutine("ResetState");
+
+        myballcount.text ="×"+ balls.Count.ToString();
     }
 
     //再ロード時のステータスをリセットするコルーチン
@@ -63,6 +69,7 @@ public class BallManager : MonoBehaviour
     //発射 InputControllerから呼ばれる
     public void Shooting(Vector3 vec)
     {
+        GManager.instance.setState("BlocksTurn");
         isShooting = true;
         returnBall = 0;
         Vector3 shotForward = Vector3.Scale((vec - ballBornPoint.position), new Vector3(1, 1, 0)).normalized;
@@ -71,8 +78,9 @@ public class BallManager : MonoBehaviour
         //pos.Normalize();
         //GManager.instance.force = pos;
         //Vector3 normalPos= pos.normalized;
-        GManager.instance.setState("BlocksTurn");
+        //GManager.instance.setState("BlocksTurn");
         StartCoroutine("shoot", shotForward);
+        ballCountObj.SetActive(false);
     }
     IEnumerator shoot(Vector3 vec)
     {
@@ -92,6 +100,9 @@ public class BallManager : MonoBehaviour
 
     public void BottomTouch(GameObject ball)
     {
+        ballCountObj.SetActive(true);
+        ballCountObj.transform.position = new Vector3( ballBornPoint.position.x, ballBornPoint.position.y+0.2f,0);
+        myballcount.text = "×" + returnBall.ToString();
         //ball.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         ball.GetComponent<Ball>().forceZero();
         //最初に帰ってきたボールなら
@@ -108,6 +119,7 @@ public class BallManager : MonoBehaviour
         returnBall += 1;
         if (returnBall == MaxBall)
         {
+            myballcount.text = "×" + MaxBall.ToString();
             isShooting = false;
             StartCoroutine("downBlocks");
             //Board.GetComponent<Board>().testDownBlocks();
@@ -141,6 +153,10 @@ public class BallManager : MonoBehaviour
             aggregation = true;
             StopCoroutine("shoot");
             StartCoroutine("downBlocks");
+
+            ballCountObj.SetActive(true);
+            ballCountObj.transform.position = ballBornPoint.position;
+            myballcount.text = "×" + MaxBall.ToString();
             //Board.GetComponent<Board>().testDownBlocks();
         }
 

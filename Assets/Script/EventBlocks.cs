@@ -37,7 +37,7 @@ public class EventBlocks : MonoBehaviour
     {
         if(collision.gameObject.tag== "ball")
         {
-            if (gameObject.tag == "YEvent")
+            /*if (gameObject.tag == "YEvent")
             {
                 if (DestroyCount > 100)
                 {
@@ -55,7 +55,7 @@ public class EventBlocks : MonoBehaviour
                     passed = true;
 
                 }
-            }
+            }*/
 
             if (gameObject.tag == "HEvent")
             {
@@ -80,6 +80,26 @@ public class EventBlocks : MonoBehaviour
                 //LaserSprite.SetActive(false);
                 //Destroy(Mylaser);
                 Mylaser.SetActive(false);
+            }
+
+            else if (gameObject.tag == "YEvent")
+            {
+                if (DestroyCount > 100)
+                {
+                    Destroy(gameObject);
+                }
+                DestroyCount++;
+                if (passed)
+                {
+                    collision.GetComponent<Ball>().setEventForce(new Vector3(0.5f, 0.5f, 0).normalized);
+                    passed = false;
+                }
+                else
+                {
+                    collision.GetComponent<Ball>().setEventForce(new Vector3(-0.5f, 0.5f, 0).normalized);
+                    passed = true;
+
+                }
             }
         }
     }

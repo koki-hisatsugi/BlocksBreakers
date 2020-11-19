@@ -100,7 +100,15 @@ public class Board : MonoBehaviour
         GManager.instance.stageScoreMax = 0;
         GManager.instance.stageScore = 0;
         GManager.instance.ChainScore = 0;
-        if (MathPoint > 30)
+        if (MathPoint > 40)
+        {
+            MaxPoint = 100000;
+        }
+        else if (MathPoint > 35)
+        {
+            MaxPoint = 50000;
+        }
+        else if (MathPoint > 30)
         {
             MaxPoint = 15000;
         }
@@ -133,7 +141,7 @@ public class Board : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+        /*if (Input.GetKeyDown(KeyCode.Z))
         {
             downBlocks();
         }
@@ -150,10 +158,11 @@ public class Board : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.B))
         {
             Pauser.Resume();
-        }
+        }*/
     }
 
-    void downBlocks()
+
+    /*void downBlocks()
     {
         for (int i = 11; i >= 0; i--)
         {
@@ -198,7 +207,7 @@ public class Board : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 
     public void testDownBlocks()
     {
@@ -355,6 +364,7 @@ public class Board : MonoBehaviour
         Time.timeScale = 1;
         SEManager.Instance.Play(SEPath.CLICKSOUNDS10);
         GManager.instance.stageNum++;
+
         _fade.FadeIn(1.0f, (() =>
         {
             //処理
@@ -374,7 +384,7 @@ public class Board : MonoBehaviour
         
     }
 
-    void testSetBlockFlag()
+    /*void testSetBlockFlag()
     {
         BlockFlag = new int[12, 11] {
             {0,0,0,0,0,0,0,0,0,0,0},
@@ -408,7 +418,7 @@ public class Board : MonoBehaviour
             {0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0}
         };
-    }
+    }*/
 
     void testSetBlockFlagJson(string s)
     {
@@ -465,7 +475,14 @@ public class Board : MonoBehaviour
         //transform.position = obj.position;
 
         //ステージの文字列を現在のステージにインポート
-        stageLoad = obj.strlist[stageNum-1];
+        if (stageNum <= obj.strlist.Length)
+        {
+            stageLoad = obj.strlist[stageNum - 1];
+        }
+        else
+        {
+            stageLoad = obj.strlist[obj.strlist.Length-1];
+        }
 
     }
 }

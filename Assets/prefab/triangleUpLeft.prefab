@@ -99,9 +99,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6121e1270fe67c04986d881791558d6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockHP: 30
+  blockHP: 55
   textMesh: {fileID: 5107931101378340444}
   animator: {fileID: 0}
+  board: {fileID: 0}
+  pointText: {fileID: 8562138589885321334, guid: 755f3adddb1ec3246bb141dabadfd08e,
+    type: 3}
+  myPointText: {fileID: 0}
 --- !u!50 &5107931101098781540
 Rigidbody2D:
   serializedVersion: 4
