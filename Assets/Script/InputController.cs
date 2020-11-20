@@ -22,7 +22,7 @@ public class InputController : MonoBehaviour
 
     //タッチが行われた判定
     bool isTouth;
-
+    
     void Start()
     {
         //フェードの格納

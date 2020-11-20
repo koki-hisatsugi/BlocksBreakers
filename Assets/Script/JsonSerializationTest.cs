@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using UnityEngine;
+using WBmap;
 
 // JSON形式のデータ読み書きテスト
 public class JsonSerializationTest : MonoBehaviour
@@ -13,6 +14,8 @@ public class JsonSerializationTest : MonoBehaviour
         public string[] strlist;
     }
 
+    
+
     // ファイルパス
     private string _dataPath;
 
@@ -20,7 +23,8 @@ public class JsonSerializationTest : MonoBehaviour
     {
         // ファイルのパスを計算
         //_dataPath = Path.Combine(Application.persistentDataPath, "position.json");
-        _dataPath = Path.Combine(Application.persistentDataPath, "Stage.json");
+        //_dataPath = Path.Combine(Application.persistentDataPath, "Stage.json");
+        _dataPath = Application.dataPath + "/Resources/Stage.json";
     }
 
     public StageClass teststage;
@@ -28,6 +32,8 @@ public class JsonSerializationTest : MonoBehaviour
     private void Start()
     {
         Debug.Log(_dataPath);
+        Debug.Log(Resources.Load("Stage.json"));
+        Debug.Log(Application.dataPath+"/Resources");
     }
     private void Update()
     {
@@ -41,6 +47,24 @@ public class JsonSerializationTest : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             OnLoad();
+        }
+
+        //3キー押下でsaveSystemを実行
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SaveSystem.Instance.StarData.stageSterQuantity.Add(3);
+            Debug.Log(SaveSystem.Instance.StarData.stageSterQuantity);
+            Debug.Log(SaveSystem.Instance.StarData.stageSterQuantity[0]);
+
+            SaveSystem.Instance.Save();
+        }
+
+        //4キー押下でsaveSystemを実行
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            SaveSystem.Instance.Load();
+            Debug.Log(SaveSystem.Instance.StarData.stageSterQuantity);
+            Debug.Log(SaveSystem.Instance.StarData.stageSterQuantity.Count);
         }
 
         // 方向キーで移動できるようにしておく
@@ -117,7 +141,7 @@ public class JsonSerializationTest : MonoBehaviour
     //手作業でステージを作成する
     public string[] createStagesManual()
     {
-        string[] outStr = new string[30];
+        string[] outStr = new string[31];
 
         int[,] stage1 = new int[12, 11] {
             {0,0,0,0,0,0,0,0,0,0,0},
@@ -1558,6 +1582,66 @@ public class JsonSerializationTest : MonoBehaviour
             }
         }
         outStr[29] = temp;
+
+        stage1 = new int[12, 11] {
+            {4,4,0,0,4,4,4,0,0,4,4},
+            {4,4,0,0,4,4,4,0,0,4,4},
+            {0,0,0,9,0,0,0,9,0,0,0},
+            {0,11,11,11,1,9,1,11,11,11,0},
+            {1,1,1,1,1,0,1,1,1,1,1},
+            {2,2,2,2,2,0,2,2,2,2,2},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0}
+        };
+        temp = null;
+        for (int i = 0; i < 12; i++)
+        {
+            for (int j = 0; j < 11; j++)
+            {
+                if (stage1[i, j] < 10)
+                {
+                    temp += stage1[i, j];
+                }
+                else
+                {
+                    string alpha;
+                    switch (stage1[i, j])
+                    {
+                        case 10:
+                            alpha = "a";
+                            temp += alpha;
+                            break;
+                        case 11:
+                            alpha = "b";
+                            temp += alpha;
+                            break;
+                        case 12:
+                            alpha = "c";
+                            temp += alpha;
+                            break;
+                        case 13:
+                            alpha = "d";
+                            temp += alpha;
+                            break;
+                        case 14:
+                            alpha = "e";
+                            temp += alpha;
+                            break;
+                        case 15:
+                            alpha = "f";
+                            temp += alpha;
+                            break;
+                    }
+
+
+                }
+            }
+        }
+        outStr[30] = temp;
 
         return outStr;
     }

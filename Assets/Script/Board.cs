@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 using KanKikuchi.AudioManager;
+using WBmap;
 
 public class Board : MonoBehaviour
 {
@@ -39,8 +40,20 @@ public class Board : MonoBehaviour
     public float MathPoint;
     public float MaxPoint;
 
+    //public string path => Application.dataPath + "/Resources/StageStar.json";
+    public string path => Path.Combine(Application.dataPath, "StageStar.json");
+
     private void Awake()
     {
+        //SaveSystemを使用してスコアのセーブをするときに使う　WEBGLではうまく動かないのでunityroom投稿では使用しない
+        /*if (!File.Exists(path))
+        {
+            SaveSystem.Instance.StarData.stageSterQuantity.Add(0);
+            SaveSystem.Instance.Save();
+            Debug.Log("ファイルを初期値でセーブしました。");
+        }
+        SaveSystem.Instance.Load();*/
+
         // ファイルのパスを計算
         _dataPath = Path.Combine(Application.persistentDataPath, "Stage.json");
     }
@@ -341,6 +354,38 @@ public class Board : MonoBehaviour
     //クリアーコルーチン
     IEnumerator ClearActive()
     {
+        //クリア時の星の数を計算
+        int starCount = 0;
+        if (GManager.instance.stageScore >= GManager.instance.stageScoreMax)
+        {
+            starCount = 3;
+        }
+        else if (GManager.instance.stageScore >= (GManager.instance.stageScoreMax * (2 / 3)))
+        {
+            starCount = 2;
+        }
+        else if (GManager.instance.stageScore >= (GManager.instance.stageScoreMax * (1 / 3)))
+        {
+            starCount = 1;
+        }
+
+        PlayerPrefs.SetInt("star" + GManager.instance.stageNum.ToString(), starCount);
+
+        //現在のステージはクリアしたことがあるか確認
+        //SaveSystemを使用してスコアのセーブをするときに使う　WEBGLではうまく動かないのでunityroom投稿では使用しない
+        /*if (GManager.instance.stageNum >SaveSystem.Instance.StarData.stageSterQuantity.Count)
+        {
+            SaveSystem.Instance.StarData.stageSterQuantity.Add(starCount);
+            SaveSystem.Instance.Save();
+        }else if(GManager.instance.stageNum <= SaveSystem.Instance.StarData.stageSterQuantity.Count)
+        {
+            if (SaveSystem.Instance.StarData.stageSterQuantity[GManager.instance.stageNum - 1] < starCount)
+            {
+                SaveSystem.Instance.StarData.stageSterQuantity[GManager.instance.stageNum - 1] = starCount;
+                SaveSystem.Instance.Save();
+            }
+        }*/
+
         yield return new WaitForSeconds(0.2f);
         ClearPanel.SetActive(true);
         SEManager.Instance.Play(SEPath.WINSOUND24);
