@@ -51,7 +51,7 @@ public class Ball : MonoBehaviour
         //rbvelocity = rb.velocity;
         //rb.velocity = rbvelocity;
         lookVelocity = rb.velocity;
-        if(GManager.instance.getState()== GManager.GameState.PlayerTurn)
+        /*if(GManager.instance.getState()== GManager.GameState.PlayerTurn)
         {
             GetComponent<Collider2D>().enabled = false;
         }
@@ -59,21 +59,27 @@ public class Ball : MonoBehaviour
         {
             
             GetComponent<Collider2D>().enabled = true;
-        }
+        }*/
     }
 
     private void FixedUpdate()
     {
-        if (smooth)
+        /*if (smooth)
         {
             if(transform.position== Destination)
             {
                 smooth = false;
                 gameObject.tag = "ball";
             }
-        }
+        }*/
 
 
+    }
+
+    public void setTag()
+    {
+        gameObject.tag = "ball";
+        gameObject.layer = 8;//8は"ball"レイヤー
     }
 
     public void setForce(Vector3 pos)
@@ -112,7 +118,8 @@ public class Ball : MonoBehaviour
         Destination = vec;
         rb.velocity = Vector3.zero;
         iTween.MoveTo(gameObject, iTween.Hash("x", vec.x, "y", vec.y));
-        gameObject.tag = "Untagged";
+        gameObject.tag = "nonBall";
+        gameObject.layer = 9;//9は"nonBall"レイヤー
         EventPass = false;
         //transform.position = Destination;
 

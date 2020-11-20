@@ -12,6 +12,7 @@ TagManager:
   - Blocks
   - Green
   - VEvent
+  - nonBall
   layers:
   - Default
   - TransparentFX
@@ -22,8 +23,8 @@ TagManager:
   - 
   - 
   - ball
-  - 
-  - 
+  - nonBall
+  - blocks
   - 
   - 
   - 

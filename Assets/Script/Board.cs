@@ -332,7 +332,7 @@ public class Board : MonoBehaviour
     //ゲームオーバーコルーチン
     IEnumerator GameOverActive()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
         GOPanel.SetActive(true);
         SEManager.Instance.Play(SEPath.LOSESOUND7);
         Time.timeScale = 0;
@@ -375,6 +375,7 @@ public class Board : MonoBehaviour
     public void ReturnSelectScene()
     {
         Time.timeScale = 1;
+        StopAllCoroutines();
         SEManager.Instance.Play(SEPath.CLICKSOUNDS10);
         _fade.FadeIn(1.0f, (() =>
         {

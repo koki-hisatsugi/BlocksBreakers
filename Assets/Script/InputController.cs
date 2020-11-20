@@ -20,6 +20,9 @@ public class InputController : MonoBehaviour
     GameObject FadeCanvas;
     Fade _fade;
 
+    //タッチが行われた判定
+    bool isTouth;
+
     void Start()
     {
         //フェードの格納

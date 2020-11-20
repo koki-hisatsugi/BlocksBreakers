@@ -79,6 +79,7 @@ public class Blocks : MonoBehaviour
                     board.GetComponent<Board>().blockDestroyCheck();
                     GManager.instance.ChainScore++;
                     GManager.instance.stageScore += 200 * GManager.instance.ChainScore;
+                    myPointText = Instantiate(pointText, this.transform.position, Quaternion.identity);
                     Destroy(gameObject);
 
                 }

@@ -93,6 +93,8 @@ public class BallManager : MonoBehaviour
                 yield break;
             }
             obj.GetComponent<Ball>().setForce(vec);
+            obj.GetComponent<Ball>().setTag();
+
             yield return new WaitForSeconds(waitSec);
         }
 
@@ -101,7 +103,7 @@ public class BallManager : MonoBehaviour
     public void BottomTouch(GameObject ball)
     {
         ballCountObj.SetActive(true);
-        ballCountObj.transform.position = new Vector3( ballBornPoint.position.x, ballBornPoint.position.y+0.2f,0);
+        ballCountObj.transform.position = new Vector3( ballBornPoint.position.x+0.4f, ballBornPoint.position.y+0.2f,0);
         myballcount.text = "×" + returnBall.ToString();
         //ball.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         ball.GetComponent<Ball>().forceZero();
@@ -123,6 +125,7 @@ public class BallManager : MonoBehaviour
             isShooting = false;
             StartCoroutine("downBlocks");
             //Board.GetComponent<Board>().testDownBlocks();
+            
         }
     }
 
@@ -155,7 +158,7 @@ public class BallManager : MonoBehaviour
             StartCoroutine("downBlocks");
 
             ballCountObj.SetActive(true);
-            ballCountObj.transform.position = ballBornPoint.position;
+            ballCountObj.transform.position = new Vector3( ballBornPoint.position.x+0.4f, ballBornPoint.position.y+0.2f);
             myballcount.text = "×" + MaxBall.ToString();
             //Board.GetComponent<Board>().testDownBlocks();
         }
@@ -183,8 +186,9 @@ public class BallManager : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         Board.GetComponent<Board>().testDownBlocks();
         yield return new WaitForSeconds(0.5f);
-        GManager.instance.setState("PlayerTurn");
         Board.GetComponent<Board>().dengerCheck();
+        yield return new WaitForSeconds(0.5f);
+        GManager.instance.setState("PlayerTurn");
     }
 
 
