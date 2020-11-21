@@ -368,8 +368,10 @@ public class Board : MonoBehaviour
         {
             starCount = 1;
         }
-
-        PlayerPrefs.SetInt("star" + GManager.instance.stageNum.ToString(), starCount);
+        if(PlayerPrefs.GetInt("star" + GManager.instance.stageNum.ToString(), 0) <= starCount)
+        {
+            PlayerPrefs.SetInt("star" + GManager.instance.stageNum.ToString(), starCount);
+        }
 
         //現在のステージはクリアしたことがあるか確認
         //SaveSystemを使用してスコアのセーブをするときに使う　WEBGLではうまく動かないのでunityroom投稿では使用しない

@@ -121,6 +121,9 @@ public class BallManager : MonoBehaviour
         returnBall += 1;
         if (returnBall == MaxBall)
         {
+            MaxBall += GManager.instance.ballAdd;
+            GManager.instance.ballAdd = 0;
+            BallBorn();
             myballcount.text = "×" + MaxBall.ToString();
             isShooting = false;
             StartCoroutine("downBlocks");
@@ -151,7 +154,10 @@ public class BallManager : MonoBehaviour
             {
                 balls[i].GetComponent<Ball>().setReturn(ballBornPoint.position);
             }
+            MaxBall += GManager.instance.ballAdd;
+            GManager.instance.ballAdd = 0;
             returnBall = MaxBall;
+            BallBorn();
             isShooting = false;
             aggregation = true;
             StopCoroutine("shoot");

@@ -12,6 +12,10 @@ public class PointTextMG : MonoBehaviour
     {
         pointTextMesh = pointText.GetComponent<TextMeshProUGUI>();
         setText(200 * GManager.instance.ChainScore);
+        if (gameObject.tag == "BallAddText")
+        {
+            setAddBallText();
+        }
     }
 
     // Update is called once per frame
@@ -27,5 +31,9 @@ public class PointTextMG : MonoBehaviour
     public void destroyThisObject()
     {
         Destroy(this.gameObject);
+    }
+    public void setAddBallText()
+    {
+        pointTextMesh.text = "+1";
     }
 }

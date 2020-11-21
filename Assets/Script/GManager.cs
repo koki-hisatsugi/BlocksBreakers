@@ -21,6 +21,9 @@ public class GManager : MonoBehaviour
     //ステージの番号記録変数
     public int stageNum;
 
+    //ボールを追加するための変数
+    public int ballAdd;
+
     public enum GameState
     {
         PlayerTurn,

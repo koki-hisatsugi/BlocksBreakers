@@ -8,6 +8,8 @@ public class EventBlocks : MonoBehaviour
     public GameObject LaserSprite;
     GameObject Mylaser;
     float DestroyCount;
+
+    public GameObject addBallTextPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -68,6 +70,13 @@ public class EventBlocks : MonoBehaviour
             {
                 Mylaser.transform.position = new Vector3(transform.position.x, 0, 0);
                 Mylaser.SetActive(true);
+            }
+
+            if(gameObject.tag == "BallAdd")
+            {
+                GManager.instance.ballAdd++;
+                Instantiate(addBallTextPrefab, transform.position, Quaternion.identity);
+                Destroy(gameObject);
             }
         }
     }

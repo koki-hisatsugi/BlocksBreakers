@@ -13,6 +13,10 @@ TagManager:
   - Green
   - VEvent
   - nonBall
+  - Red
+  - Blue
+  - BallAdd
+  - BallAddText
   layers:
   - Default
   - TransparentFX
