@@ -18,7 +18,7 @@ public class BlocksPos : MonoBehaviour
 
     public void showPos()
     {
-        //Debug.Log("Xpos" + blockXpos + "Ypos" + blockYpos);
+        Debug.Log("Xpos" + blockXpos + "Ypos" + blockYpos);
     }
 
     public void createBlock()
