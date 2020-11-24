@@ -27,7 +27,11 @@ public class NewBoard : MonoBehaviour
 
     public GameObject[] Block;
     private BlocksPos[,] blocksPos;
+    [SerializeField]
+    private List<GameObject> creatblock = new List<GameObject>();
     private int[,] BlockFlag;
+
+    public GameObject createPanel;
 
     public string stageLoad;
 
@@ -59,6 +63,9 @@ public class NewBoard : MonoBehaviour
         //フェードの格納
         FadeCanvas = GameObject.Find("FadeCanvas(Clone)");
         _fade = FadeCanvas.GetComponent<Fade>();
+        //フェードアウト処理
+        _fade.FadeOut(0.5f, (() =>
+        { }));
 
         inputController = GameObject.Find("inputController");
         //testSetBlockFlag2();
@@ -85,13 +92,20 @@ public class NewBoard : MonoBehaviour
             }
         }
 
+        int childnum = 0;
         for (int i = 0; i < 12; i++)
         {
             for (int j = 0; j < 11; j++)
             {
-                blocksPos[i, j].myBlock = Instantiate(Block[0], new Vector3(blocksPos[i, j].blockXpos, blocksPos[i, j].blockYpos), Quaternion.identity);
+                //blocksPos[i, j].myBlock = Instantiate(Block[0], new Vector3(blocksPos[i, j].blockXpos, blocksPos[i, j].blockYpos), Quaternion.identity);
+                var ob = Instantiate(Block[0], new Vector3(blocksPos[i, j].blockXpos, blocksPos[i, j].blockYpos), Quaternion.identity);
+                ob.GetComponent<NewBButton>().setChildNum(childnum);
+                ob.GetComponent<NewBButton>().createPanel = this.createPanel;
+                creatblock.Add(ob);
+                childnum++;
             }
         }
+        createPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -137,6 +151,50 @@ public class NewBoard : MonoBehaviour
         
     }
 
+    public void saveTest()
+    {
+        string stageData = null;
+        for(int i=0; i < creatblock.Count; i++)
+        {
+            stageData += creatblock[i].GetComponent<NewBButton>().getBlockSetNum();
+        }
+        int prefsNum = 0;
+        string tempStageData = "";
+        //string tempStageData = PlayerPrefs.GetString("Create" + prefsNum.ToString(), "null");
+        Debug.Log(tempStageData);
+        while (true)
+        {
+            tempStageData = PlayerPrefs.GetString("Create" + prefsNum.ToString(), "null");
+            if(!PlayerPrefs.HasKey("Create" + prefsNum.ToString()))
+            {
+                Debug.Log(prefsNum);
+                break;
+            }
+            prefsNum++;
+
+            /*if (tempStageData.Equals("null"))
+            {
+                Debug.Log(prefsNum);
+                break;
+            }
+            prefsNum++;
+            tempStageData = PlayerPrefs.GetString("Create" + prefsNum.ToString(), null);*/
+        }
+        PlayerPrefs.SetString("Create" + prefsNum.ToString(), stageData);
+        PlayerPrefs.Save();
+        prefsNum = 0;
+
+    }
+
+    public void TestPlayerPrefsGet()
+    {
+        //PlayerPrefs.DeleteKey("Create" + 0);
+        //PlayerPrefs.DeleteKey("Create" + 1);
+
+        Debug.Log(PlayerPrefs.GetString("Create" + 0, "null"));
+        Debug.Log(PlayerPrefs.GetString("Create" + 1, "null"));
+        Debug.Log(PlayerPrefs.GetString("Create" + 2, "null"));
+    }
 
 
     void testSetBlockFlagJson(string s)

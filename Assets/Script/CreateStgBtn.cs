@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using KanKikuchi.AudioManager;
 using WBmap;
 
-public class Buttons : MonoBehaviour
+public class CreateStgBtn : MonoBehaviour
 {
     private GameObject myText;
     private Text buttonNum;
@@ -28,11 +28,11 @@ public class Buttons : MonoBehaviour
         FadeCanvas = GameObject.Find("FadeCanvas(Clone)");
         _fade = FadeCanvas.GetComponent<Fade>();
 
-        for(int i=0; i<frontStarImg.Length; i++)
+        for (int i = 0; i < frontStarImg.Length; i++)
         {
             frontStarImg[i].SetActive(false);
         }
-        var starCount = PlayerPrefs.GetInt("star" + int.Parse(buttonNum.text).ToString(), 0);
+        var starCount = PlayerPrefs.GetInt("createstar" + int.Parse(buttonNum.text).ToString(), 0);
         if (starCount == 0)
         {
             btnStarPanel.SetActive(false);
@@ -46,7 +46,7 @@ public class Buttons : MonoBehaviour
         }
 
         //PlayerPrefsを使用してスコア判定をする
-        var saveScore = PlayerPrefs.GetInt("star" + (int.Parse(buttonNum.text)-1).ToString(), 0);
+        var saveScore = PlayerPrefs.GetInt("createstar" + (int.Parse(buttonNum.text) - 1).ToString(), 0);
         if (saveScore == 0)
         {
             if (int.Parse(buttonNum.text) == 1)
@@ -87,13 +87,13 @@ public class Buttons : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void stageSelect()
+    public void CreateStageSelect()
     {
         GManager.instance.stageNum = int.Parse(buttonNum.text);
-        GManager.instance.setStageState(1);
+        GManager.instance.setStageState(2);
         SEManager.Instance.Play(SEPath.FANTASYCLICKSOUNDS1);
         //ここにさせたい処理を書く
         _fade.FadeIn(1.0f, (() =>

@@ -4,6 +4,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using WBmap;
+using KanKikuchi.AudioManager;
 
 public class StageSelectMG : MonoBehaviour
 {
@@ -37,6 +38,37 @@ public class StageSelectMG : MonoBehaviour
         _fade.FadeOut(0.5f, (() =>
         {
             //処理
+        }));
+    }
+
+    public void CreateStageSelect()
+    {
+        SEManager.Instance.Play(SEPath.FANTASYCLICKSOUNDS1);
+        //ここにさせたい処理を書く
+        _fade.FadeIn(1.0f, (() =>
+        {
+            //処理
+            SceneManager.LoadScene("CreateStageSelect");
+        }));
+    }
+    public void NomalStageSelect()
+    {
+        SEManager.Instance.Play(SEPath.FANTASYCLICKSOUNDS1);
+        //ここにさせたい処理を書く
+        _fade.FadeIn(1.0f, (() =>
+        {
+            //処理
+            SceneManager.LoadScene("StageSelect");
+        }));
+    }
+    public void CreateStageIngame()
+    {
+        SEManager.Instance.Play(SEPath.FANTASYCLICKSOUNDS1);
+        //ここにさせたい処理を書く
+        _fade.FadeIn(1.0f, (() =>
+        {
+            //処理
+            SceneManager.LoadScene("InGame_new");
         }));
     }
 

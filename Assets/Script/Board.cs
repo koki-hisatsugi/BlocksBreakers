@@ -70,14 +70,21 @@ public class Board : MonoBehaviour
         ClearPanel.SetActive(false);
         inputController = GameObject.Find("inputController");
         //testSetBlockFlag2();
-        if (GManager.instance.stageNum > 0)
+        if (GManager.instance.GetStageState() == GManager.StageState.NomalStage)
         {
-            OnLoad(GManager.instance.stageNum);
-        }
-        else
+            if (GManager.instance.stageNum > 0)
+            {
+                OnLoad(GManager.instance.stageNum);
+            }
+            else
+            {
+                OnLoad(1);
+            }
+        }else if(GManager.instance.GetStageState() == GManager.StageState.CreateStage)
         {
-            OnLoad(1);
+            CreateStageLoad(GManager.instance.stageNum);
         }
+
         
         testSetBlockFlagJson(stageLoad);
         //testSetBlockFlag();
@@ -174,53 +181,6 @@ public class Board : MonoBehaviour
         }*/
     }
 
-
-    /*void downBlocks()
-    {
-        for (int i = 11; i >= 0; i--)
-        {
-            for (int j = 0; j < 11; j++)
-            {
-                if (i > 0)
-                {
-                    if(blocksPos[i - 1, j].myBlock == null)
-                    {
-                        BlockFlag[i, j] = 0;
-                    }
-                    else
-                    {
-                        BlockFlag[i, j] = 1;
-                    }
-
-                    //BlockFlag[i, j] = BlockFlag[i - 1, j];
-                }
-                else
-                {
-                    BlockFlag[i, j] = 0;
-                }
-                
-            }
-        }
-
-        for (int i = 0; i < 12; i++)
-        {
-            for (int j = 0; j < 11; j++)
-            {
-                if (BlockFlag[i, j] == 1)
-                {
-                    if(blocksPos[i, j].myBlock == null)
-                    {
-                        blocksPos[i, j].myBlock = Instantiate(Block[0], new Vector3(blocksPos[i, j].blockXpos, blocksPos[i, j].blockYpos), Quaternion.identity);
-                    }
-                }
-                else
-                {
-                    Destroy(blocksPos[i, j].myBlock);
-
-                }
-            }
-        }
-    }*/
 
     public void testDownBlocks()
     {
@@ -356,22 +316,44 @@ public class Board : MonoBehaviour
     {
         //クリア時の星の数を計算
         int starCount = 0;
-        if (GManager.instance.stageScore >= GManager.instance.stageScoreMax)
+        if (GManager.instance.GetStageState() == GManager.StageState.NomalStage)
         {
-            starCount = 3;
-        }
-        else if (GManager.instance.stageScore >= (GManager.instance.stageScoreMax * (2 / 3)))
+            if (GManager.instance.stageScore >= GManager.instance.stageScoreMax)
+            {
+                starCount = 3;
+            }
+            else if (GManager.instance.stageScore >= (GManager.instance.stageScoreMax * (2 / 3)))
+            {
+                starCount = 2;
+            }
+            else if (GManager.instance.stageScore >= (GManager.instance.stageScoreMax * (1 / 3)))
+            {
+                starCount = 1;
+            }
+            if (PlayerPrefs.GetInt("star" + GManager.instance.stageNum.ToString(), 0) <= starCount)
+            {
+                PlayerPrefs.SetInt("star" + GManager.instance.stageNum.ToString(), starCount);
+            }
+        }else if(GManager.instance.GetStageState() == GManager.StageState.CreateStage)
         {
-            starCount = 2;
+            if (GManager.instance.stageScore >= GManager.instance.stageScoreMax)
+            {
+                starCount = 3;
+            }
+            else if (GManager.instance.stageScore >= (GManager.instance.stageScoreMax * (2 / 3)))
+            {
+                starCount = 2;
+            }
+            else if (GManager.instance.stageScore >= (GManager.instance.stageScoreMax * (1 / 3)))
+            {
+                starCount = 1;
+            }
+            if (PlayerPrefs.GetInt("createstar" + GManager.instance.stageNum.ToString(), 0) <= starCount)
+            {
+                PlayerPrefs.SetInt("createstar" + GManager.instance.stageNum.ToString(), starCount);
+            }
         }
-        else if (GManager.instance.stageScore >= (GManager.instance.stageScoreMax * (1 / 3)))
-        {
-            starCount = 1;
-        }
-        if(PlayerPrefs.GetInt("star" + GManager.instance.stageNum.ToString(), 0) <= starCount)
-        {
-            PlayerPrefs.SetInt("star" + GManager.instance.stageNum.ToString(), starCount);
-        }
+
 
         //現在のステージはクリアしたことがあるか確認
         //SaveSystemを使用してスコアのセーブをするときに使う　WEBGLではうまく動かないのでunityroom投稿では使用しない
@@ -432,41 +414,6 @@ public class Board : MonoBehaviour
         
     }
 
-    /*void testSetBlockFlag()
-    {
-        BlockFlag = new int[12, 11] {
-            {0,0,0,0,0,0,0,0,0,0,0},
-            {0,1,1,2,0,2,1,0,2,0,1},
-            {0,0,1,2,0,2,0,0,0,1,2},
-            {1,0,2,2,0,2,2,1,1,0,2},
-            {1,1,1,2,2,0,1,0,1,0,0},
-            {2,1,1,2,0,0,2,2,1,1,2},
-            {2,1,2,2,2,2,2,1,2,1,2},
-            {2,2,2,2,0,1,1,1,1,2,2},
-            {1,1,1,2,1,2,0,1,1,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0}
-        };
-    }
-
-    void testSetBlockFlag2()
-    {
-        BlockFlag = new int[12, 11] {
-            {0,0,0,0,0,0,0,0,0,0,0},
-            {1,1,1,1,1,0,1,1,1,0,1},
-            {1,1,1,1,1,0,1,1,1,1,1},
-            {1,1,1,1,1,0,1,1,1,1,1},
-            {1,1,1,1,1,0,1,1,1,1,1},
-            {1,1,1,1,1,0,1,1,1,1,1},
-            {1,1,1,1,1,0,1,1,1,1,1},
-            {1,1,1,0,1,0,1,0,1,1,1},
-            {1,1,1,1,1,0,1,1,1,1,1},
-            {2,0,0,0,0,0,0,0,0,0,2},
-            {0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0}
-        };
-    }*/
 
     void testSetBlockFlagJson(string s)
     {
@@ -532,5 +479,10 @@ public class Board : MonoBehaviour
             stageLoad = obj.strlist[obj.strlist.Length-1];
         }
 
+    }
+
+    public void CreateStageLoad(int CreateNum)
+    {
+        stageLoad = PlayerPrefs.GetString("Create" + (CreateNum-1).ToString());
     }
 }

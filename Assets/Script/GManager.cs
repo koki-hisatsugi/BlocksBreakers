@@ -32,6 +32,13 @@ public class GManager : MonoBehaviour
         Pause,
     }
     [SerializeField] private GameState gameState;
+
+    public enum StageState
+    {
+        NomalStage,
+        CreateStage,
+    }
+    [SerializeField] private StageState stageState;
     public float stageScoreMax;
     public float stageScore;
     public float ChainScore;
@@ -40,6 +47,7 @@ public class GManager : MonoBehaviour
     private void Awake()
     {
         gameState = GameState.PlayerTurn;
+        stageState = StageState.NomalStage;
         //GameManagerを一つのみ存在するようにする
         if (instance == null)
         {
@@ -98,5 +106,21 @@ public class GManager : MonoBehaviour
     public GameState getState()
     {
         return gameState;
+    }
+
+    public void setStageState(int num)
+    {
+        if (num == 1)
+        {
+            stageState = StageState.NomalStage;
+        }
+        else
+        {
+            stageState = StageState.CreateStage;
+        }
+    }
+    public StageState GetStageState()
+    {
+        return stageState;
     }
 }
