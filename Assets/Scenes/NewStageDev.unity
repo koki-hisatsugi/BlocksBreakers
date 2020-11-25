@@ -661,6 +661,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contentRectTransform: {fileID: 255750736}
   button: {fileID: 8924952621442677674, guid: 93ffe83c4e7917045b746f91123f2df7, type: 3}
+  stageLoad: 
+  btnQuantity: 0
 --- !u!4 &490177561
 Transform:
   m_ObjectHideFlags: 0

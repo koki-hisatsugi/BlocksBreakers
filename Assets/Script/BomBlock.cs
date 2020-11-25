@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using KanKikuchi.AudioManager;
 
-public class Blocks : MonoBehaviour
+public class BomBlock : MonoBehaviour
 {
     public int blockHP = 30;
     public TextMeshProUGUI textMesh;
@@ -17,6 +17,7 @@ public class Blocks : MonoBehaviour
 
     public GameObject pointText;
     public GameObject myPointText;
+    public GameObject blast;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +30,7 @@ public class Blocks : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -53,8 +54,18 @@ public class Blocks : MonoBehaviour
                     myPointText = Instantiate(pointText, this.transform.position, Quaternion.identity);
                     //myPointText.GetComponent<PointTextMG>().setText(200 * GManager.instance.ChainScore);
                     board.GetComponent<Board>().blockDestroyCheck();
+                    //Blast発生
+                    var blastPrefab = Instantiate(blast, transform.position, Quaternion.identity);
+                    blastPrefab.GetComponent<BlastMG>().addForce(Vector3.up);
+                    blastPrefab = Instantiate(blast, transform.position, Quaternion.identity);
+                    blastPrefab.GetComponent<BlastMG>().addForce(Vector3.left);
+                    blastPrefab = Instantiate(blast, transform.position, Quaternion.identity);
+                    blastPrefab.GetComponent<BlastMG>().addForce(Vector3.right);
+                    blastPrefab = Instantiate(blast, transform.position, Quaternion.identity);
+                    blastPrefab.GetComponent<BlastMG>().addForce(Vector3.down);
+                    //ゲームオブジェクト削除
                     Destroy(gameObject);
-                    
+
                 }
             }
 
@@ -80,6 +91,16 @@ public class Blocks : MonoBehaviour
                     GManager.instance.ChainScore++;
                     GManager.instance.stageScore += 200 * GManager.instance.ChainScore;
                     myPointText = Instantiate(pointText, this.transform.position, Quaternion.identity);
+                    //Blast発生
+                    var blastPrefab = Instantiate(blast, transform.position, Quaternion.identity);
+                    blastPrefab.GetComponent<BlastMG>().addForce(Vector3.up);
+                    blastPrefab = Instantiate(blast, transform.position, Quaternion.identity);
+                    blastPrefab.GetComponent<BlastMG>().addForce(Vector3.left);
+                    blastPrefab = Instantiate(blast, transform.position, Quaternion.identity);
+                    blastPrefab.GetComponent<BlastMG>().addForce(Vector3.right);
+                    blastPrefab = Instantiate(blast, transform.position, Quaternion.identity);
+                    blastPrefab.GetComponent<BlastMG>().addForce(Vector3.down);
+                    //ゲームオブジェクト削除
                     Destroy(gameObject);
 
                 }
@@ -95,6 +116,16 @@ public class Blocks : MonoBehaviour
                 GManager.instance.ChainScore++;
                 GManager.instance.stageScore += 200 * GManager.instance.ChainScore;
                 myPointText = Instantiate(pointText, this.transform.position, Quaternion.identity);
+                //Blast発生
+                var blastPrefab = Instantiate(blast, transform.position, Quaternion.identity);
+                blastPrefab.GetComponent<BlastMG>().addForce(Vector3.up);
+                blastPrefab = Instantiate(blast, transform.position, Quaternion.identity);
+                blastPrefab.GetComponent<BlastMG>().addForce(Vector3.left);
+                blastPrefab = Instantiate(blast, transform.position, Quaternion.identity);
+                blastPrefab.GetComponent<BlastMG>().addForce(Vector3.right);
+                blastPrefab = Instantiate(blast, transform.position, Quaternion.identity);
+                blastPrefab.GetComponent<BlastMG>().addForce(Vector3.down);
+                //ゲームオブジェクト削除
                 Destroy(gameObject);
             }
         }
@@ -108,25 +139,20 @@ public class Blocks : MonoBehaviour
         board.GetComponent<Board>().dengerCheck();
     }
 
-    /*使ってません
-    public void Damage()
-    {
-        if (blockHP > 0)
-        {
-            blockHP--;
-            textMesh.text = blockHP.ToString();
-            animator.SetBool("blockDamage", false);
-            animator.SetBool("blockDamage", true);
-            SEManager.Instance.Play(SEPath.POPSOUNDS3);
-            if (blockHP == 0)
-            {
-                Destroy(gameObject);
-            }
-        }
-    }*/
-
     public void animend()
     {
         animator.SetBool("blockDamage", false);
     }
+
+    /*private void OnDestroy()
+    {
+        var blastPrefab = Instantiate(blast, transform.position, Quaternion.identity);
+        blastPrefab.GetComponent<BlastMG>().addForce(Vector3.up);
+        blastPrefab = Instantiate(blast, transform.position, Quaternion.identity);
+        blastPrefab.GetComponent<BlastMG>().addForce(Vector3.left);
+        blastPrefab = Instantiate(blast, transform.position, Quaternion.identity);
+        blastPrefab.GetComponent<BlastMG>().addForce(Vector3.right);
+        blastPrefab = Instantiate(blast, transform.position, Quaternion.identity);
+        blastPrefab.GetComponent<BlastMG>().addForce(Vector3.down);
+    }*/
 }

@@ -17,6 +17,7 @@ TagManager:
   - Blue
   - BallAdd
   - BallAddText
+  - Blast
   layers:
   - Default
   - TransparentFX

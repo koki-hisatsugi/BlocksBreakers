@@ -43,6 +43,9 @@ public class NewBoard : MonoBehaviour
     //public string path => Application.dataPath + "/Resources/StageStar.json";
     public string path => Path.Combine(Application.dataPath, "StageStar.json");
 
+    public GameObject MenuPanal;
+    public GameObject SaveCheckPanel;
+
     private void Awake()
     {
         //SaveSystemを使用してスコアのセーブをするときに使う　WEBGLではうまく動かないのでunityroom投稿では使用しない
@@ -68,8 +71,12 @@ public class NewBoard : MonoBehaviour
         { }));
 
         inputController = GameObject.Find("inputController");
+        MenuPanal = GameObject.Find("MenuPanel");
+        SaveCheckPanel = GameObject.Find("SaveCheckPanel");
+        MenuPanal.SetActive(false);
+        SaveCheckPanel.SetActive(false);
         //testSetBlockFlag2();
-        if (GManager.instance.stageNum > 0)
+        /*if (GManager.instance.stageNum > 0)
         {
             OnLoad(GManager.instance.stageNum);
         }
@@ -78,7 +85,7 @@ public class NewBoard : MonoBehaviour
             OnLoad(1);
         }
         
-        testSetBlockFlagJson(stageLoad);
+        testSetBlockFlagJson(stageLoad);*/
 
         blocksPos = new BlocksPos[12,11];
         for(int i=0; i<12; i++)
@@ -97,11 +104,22 @@ public class NewBoard : MonoBehaviour
         {
             for (int j = 0; j < 11; j++)
             {
-                //blocksPos[i, j].myBlock = Instantiate(Block[0], new Vector3(blocksPos[i, j].blockXpos, blocksPos[i, j].blockYpos), Quaternion.identity);
-                var ob = Instantiate(Block[0], new Vector3(blocksPos[i, j].blockXpos, blocksPos[i, j].blockYpos), Quaternion.identity);
-                ob.GetComponent<NewBButton>().setChildNum(childnum);
-                ob.GetComponent<NewBButton>().createPanel = this.createPanel;
-                creatblock.Add(ob);
+                if (i < 10)
+                {
+                    //blocksPos[i, j].myBlock = Instantiate(Block[0], new Vector3(blocksPos[i, j].blockXpos, blocksPos[i, j].blockYpos), Quaternion.identity);
+                    var ob = Instantiate(Block[0], new Vector3(blocksPos[i, j].blockXpos, blocksPos[i, j].blockYpos), Quaternion.identity);
+                    ob.GetComponent<NewBButton>().setChildNum(childnum);
+                    ob.GetComponent<NewBButton>().createPanel = this.createPanel;
+                    creatblock.Add(ob);
+                }
+                else
+                {
+                    var ob = Instantiate(Block[1], new Vector3(blocksPos[i, j].blockXpos, blocksPos[i, j].blockYpos), Quaternion.identity);
+                    ob.GetComponent<NewBButton>().setChildNum(childnum);
+                    ob.GetComponent<NewBButton>().createPanel = this.createPanel;
+                    creatblock.Add(ob);
+                }
+
                 childnum++;
             }
         }
@@ -151,16 +169,50 @@ public class NewBoard : MonoBehaviour
         
     }
 
-    public void saveTest()
+    public void saveStage()
     {
         string stageData = null;
-        for(int i=0; i < creatblock.Count; i++)
+        for (int i = 0; i < creatblock.Count; i++)
         {
-            stageData += creatblock[i].GetComponent<NewBButton>().getBlockSetNum();
+            //stageData += creatblock[i].GetComponent<NewBButton>().getBlockSetNum();
+            if (creatblock[i].GetComponent<NewBButton>().getBlockSetNum() < 10)
+            {
+                stageData += creatblock[i].GetComponent<NewBButton>().getBlockSetNum();
+            }
+            else
+            {
+                string alpha;
+                switch (creatblock[i].GetComponent<NewBButton>().getBlockSetNum())
+                {
+                    case 10:
+                        alpha = "a";
+                        stageData += alpha;
+                        break;
+                    case 11:
+                        alpha = "b";
+                        stageData += alpha;
+                        break;
+                    case 12:
+                        alpha = "c";
+                        stageData += alpha;
+                        break;
+                    case 13:
+                        alpha = "d";
+                        stageData += alpha;
+                        break;
+                    case 14:
+                        alpha = "e";
+                        stageData += alpha;
+                        break;
+                    case 15:
+                        alpha = "f";
+                        stageData += alpha;
+                        break;
+                }
+            }
         }
         int prefsNum = 0;
         string tempStageData = "";
-        //string tempStageData = PlayerPrefs.GetString("Create" + prefsNum.ToString(), "null");
         Debug.Log(tempStageData);
         while (true)
         {
@@ -171,18 +223,18 @@ public class NewBoard : MonoBehaviour
                 break;
             }
             prefsNum++;
-
-            /*if (tempStageData.Equals("null"))
-            {
-                Debug.Log(prefsNum);
-                break;
-            }
-            prefsNum++;
-            tempStageData = PlayerPrefs.GetString("Create" + prefsNum.ToString(), null);*/
+            
         }
         PlayerPrefs.SetString("Create" + prefsNum.ToString(), stageData);
         PlayerPrefs.Save();
         prefsNum = 0;
+
+        SEManager.Instance.Play(SEPath.CLICKSOUNDS10);
+        _fade.FadeIn(1.0f, (() =>
+        {
+            //処理
+            SceneManager.LoadScene("CreateStageSelect");
+        }));
 
     }
 
@@ -261,5 +313,37 @@ public class NewBoard : MonoBehaviour
             stageLoad = obj.strlist[obj.strlist.Length-1];
         }
 
+    }
+
+    public void openMenuPanel()
+    {
+        SEManager.Instance.Play(SEPath.CLICKSOUNDS10);
+        MenuPanal.SetActive(true);
+    }
+    public void openSaveCheck()
+    {
+        SEManager.Instance.Play(SEPath.CLICKSOUNDS10);
+        SaveCheckPanel.SetActive(true);
+    }
+
+    public void closeMenuPanel()
+    {
+        SEManager.Instance.Play(SEPath.CLICKSOUNDS10);
+        MenuPanal.SetActive(false);
+    }
+    public void closeSaveCheck()
+    {
+        SEManager.Instance.Play(SEPath.CLICKSOUNDS10);
+        SaveCheckPanel.SetActive(false);
+    }
+
+    public void CreateStageScene()
+    {
+        SEManager.Instance.Play(SEPath.CLICKSOUNDS10);
+        _fade.FadeIn(1.0f, (() =>
+        {
+            //処理
+            SceneManager.LoadScene("CreateStageSelect");
+        }));
     }
 }

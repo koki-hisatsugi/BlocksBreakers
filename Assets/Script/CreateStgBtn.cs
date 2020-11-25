@@ -45,8 +45,10 @@ public class CreateStgBtn : MonoBehaviour
             }
         }
 
+        btnStarPanel.SetActive(true);
+
         //PlayerPrefsを使用してスコア判定をする
-        var saveScore = PlayerPrefs.GetInt("createstar" + (int.Parse(buttonNum.text) - 1).ToString(), 0);
+        /*var saveScore = PlayerPrefs.GetInt("createstar" + (int.Parse(buttonNum.text) - 1).ToString(), 0);
         if (saveScore == 0)
         {
             if (int.Parse(buttonNum.text) == 1)
@@ -66,7 +68,7 @@ public class CreateStgBtn : MonoBehaviour
             gameObject.GetComponent<Button>().interactable = true;
             btnStarPanel.SetActive(true);
             Debug.Log("キー解除");
-        }
+        }*/
 
         //SaveSystemを使用してスコアのセーブをするときに使う　WEBGLではうまく動かないのでunityroom投稿では使用しない
         /*

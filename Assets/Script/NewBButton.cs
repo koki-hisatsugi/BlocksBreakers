@@ -8,6 +8,7 @@ public class NewBButton : MonoBehaviour
     public GameObject[] createBlocks;
     public GameObject createPanel;
     GameObject myBlock;
+    [SerializeField]
     int blockSetNum;
 
     public int childNum;
@@ -15,6 +16,7 @@ public class NewBButton : MonoBehaviour
     void Start()
     {
         //createPanel = GameObject.Find("BlockCreatePanel");
+        blockSetNum = 0;
     }
 
     public void onClickPlusButton()

@@ -32,6 +32,7 @@ public class Board : MonoBehaviour
     public GameObject denText;
     public GameObject GOPanel;
     public GameObject ClearPanel;
+    public GameObject HowToPanel;
 
     public string stageLoad;
 
@@ -42,6 +43,8 @@ public class Board : MonoBehaviour
 
     //public string path => Application.dataPath + "/Resources/StageStar.json";
     public string path => Path.Combine(Application.dataPath, "StageStar.json");
+
+    public bool doneClear;
 
     private void Awake()
     {
@@ -64,10 +67,12 @@ public class Board : MonoBehaviour
         FadeCanvas = GameObject.Find("FadeCanvas(Clone)");
         _fade = FadeCanvas.GetComponent<Fade>();
 
+        doneClear = false;
         GManager.instance.trunCount = 0;
         denText.SetActive(false);
         GOPanel.SetActive(false);
         ClearPanel.SetActive(false);
+        HowToPanel.SetActive(false);
         inputController = GameObject.Find("inputController");
         //testSetBlockFlag2();
         if (GManager.instance.GetStageState() == GManager.StageState.NomalStage)
@@ -232,8 +237,13 @@ public class Board : MonoBehaviour
             }
         if (clear)
         {
-            inputController.GetComponent<BallManager>().clearPosSuspention();
-            StartCoroutine("ClearActive");
+            if (!doneClear)
+            {
+                inputController.GetComponent<BallManager>().clearPosSuspention();
+                StartCoroutine("ClearActive");
+                doneClear = true;
+            }
+
         }
     }
 
@@ -287,9 +297,13 @@ public class Board : MonoBehaviour
             StartCoroutine("GameOverActive");
         }else if (clear)
         {
-            Debug.Log("クリアーフラグ");
-            inputController.GetComponent<BallManager>().clearPosSuspention();
-            StartCoroutine("ClearActive");
+            //Debug.Log("クリアーフラグ");
+            if (!doneClear)
+            {
+                inputController.GetComponent<BallManager>().clearPosSuspention();
+                StartCoroutine("ClearActive");
+                doneClear = true;
+            }
         }
     }
 
@@ -414,6 +428,18 @@ public class Board : MonoBehaviour
         
     }
 
+    public void OpenHowToPanel()
+    {
+        SEManager.Instance.Play(SEPath.CLICKSOUNDS10);
+        HowToPanel.SetActive(true);
+    }
+
+    public void CloseHowToPanel()
+    {
+        SEManager.Instance.Play(SEPath.CLICKSOUNDS10);
+        HowToPanel.SetActive(false);
+    }
+
 
     void testSetBlockFlagJson(string s)
     {
@@ -483,6 +509,15 @@ public class Board : MonoBehaviour
 
     public void CreateStageLoad(int CreateNum)
     {
-        stageLoad = PlayerPrefs.GetString("Create" + (CreateNum-1).ToString());
+        if(PlayerPrefs.HasKey("Create" + (CreateNum - 1).ToString()))
+        {
+            stageLoad = PlayerPrefs.GetString("Create" + (CreateNum - 1).ToString());
+        }
+        else
+        {
+            GManager.instance.stageNum--;
+            stageLoad = PlayerPrefs.GetString("Create" + (CreateNum - 2).ToString());
+        }
+        
     }
 }

@@ -11,10 +11,9 @@ GameObject:
   - component: {fileID: 802220475439116536}
   - component: {fileID: 802220475439116535}
   - component: {fileID: 802220475439116534}
-  - component: {fileID: 802220475439116533}
   - component: {fileID: 4616406098825883537}
   m_Layer: 0
-  m_Name: newBlocksButton
+  m_Name: nonBlocksButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,35 +111,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &802220475439116533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 802220475439116532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 4616406098825883537}
-          m_TargetAssemblyTypeName: NewBButton, Assembly-CSharp
-          m_MethodName: onClickPlusButton
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!114 &4616406098825883537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,22 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7ddf64214af7a2419565934439e95fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  createBlocks:
-  - {fileID: 2886559431574513950, guid: 23713c5f4570c214ea9dc9363ae86a8a, type: 3}
-  - {fileID: 2886559431574513950, guid: 255320caae878114d886aa669848b9be, type: 3}
-  - {fileID: 2886559431574513950, guid: f31b6fcaf7cf453499c69089e126456f, type: 3}
-  - {fileID: 2886559431574513950, guid: 01c3eb1da7e8c0f4485668d17d2cc6cf, type: 3}
-  - {fileID: 5107931101098781542, guid: 10ecbf2e520b5fc43a455436b3e18d4d, type: 3}
-  - {fileID: 5107931101098781542, guid: b59479ab0eee5de498e7183d3e06707b, type: 3}
-  - {fileID: 5107931101098781542, guid: 7adee69933a98e9488b4e41fc47b31b5, type: 3}
-  - {fileID: 5107931101098781542, guid: a99efe7a2396aed47a16cd27cba798bb, type: 3}
-  - {fileID: 2886559431574513950, guid: 148ee335cd8f3014eb673bffb7c567c3, type: 3}
-  - {fileID: 2886559431574513950, guid: d24a3fd0fc182fc4b869f106622b24d5, type: 3}
-  - {fileID: 2886559431574513950, guid: ed9301856fec21244a4dc80617abcd34, type: 3}
-  - {fileID: 2886559431574513950, guid: dbf2962117321a34782a9935ff558f3b, type: 3}
-  - {fileID: 2886559431574513950, guid: 7dc0230c48eb4c544a476248d1024b22, type: 3}
+  createBlocks: []
   createPanel: {fileID: 0}
-  blockSetNum: 0
   childNum: 0
 --- !u!1 &802220476455283252
 GameObject:
@@ -241,7 +197,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: b97b41b47a816c64a9ec3b8873a65d89, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fa7b67725bb4da84d9937287144ea79c, type: 3}
   m_Color: {r: 0.5660378, g: 0.54681385, b: 0.54681385, a: 1}
   m_FlipX: 0
   m_FlipY: 0
